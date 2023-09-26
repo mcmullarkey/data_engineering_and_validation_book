@@ -1,0 +1,2264 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{longtable}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Data Engineering and Validation},
+  pdfauthor={Michael Mullarkey},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Data Engineering and Validation}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{From the Ground Up}
+\author{Michael Mullarkey}
+\date{2023-09-26T00:00:00-06:00}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, enhanced, borderline west={3pt}{0pt}{shadecolor}, interior hidden, sharp corners, breakable, frame hidden]}{\end{tcolorbox}}\fi
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\bookmarksetup{startatroot}
+
+\hypertarget{preface}{%
+\chapter*{Preface}\label{preface}}
+\addcontentsline{toc}{chapter}{Preface}
+
+\hypertarget{why-does-this-book-exist}{%
+\section*{Why Does This Book Exist?}\label{why-does-this-book-exist}}
+\addcontentsline{toc}{section}{Why Does This Book Exist?}
+
+\href{https://blog.pragmaticengineer.com/what-is-data-engineering/}{Data
+engineering and validation} is the practice of systematically putting
+together accurate, well-structured data.
+
+Data engineering and validation is a
+\href{https://finance.yahoo.com/news/big-data-engineering-services-market-125600472.html}{multi-billion
+dollar industry}.
+
+Data engineering and validation is absent at many smaller
+organizations.\footnote{Or at least a systematic, repeatable process is
+  absent}
+
+At first glance, these statements might seem contradictory. If the
+processes that help ensure accurate, usable data exude value then
+wouldn't \emph{all} organizations would jump to implement them?
+
+However, the value of data engineering and validation is precisely what
+can put it out of reach for smaller organizations. Valuable tools are
+expensive ones, and common data engineering and validation tools are
+often outside smaller organizations' budgets.\footnote{Sure, there are
+  plenty of open source tools that enable data engineering +
+  validation\ldots{} and the most user-friendly ways to implement those
+  tools are often in pay-to-use environments.}
+
+Know-how of multiple indsutry-standard programming languages\footnote{Like
+  Python and SQL} and technologies\footnote{Like Docker} are possible to
+find within smaller organizations. And those skills are valuable enough
+that retaining people with those skills is far from a guarantee.
+
+Beyond potentially prohibitive costs for tools and talent, most data
+engineering and validation systems necessary for larger-scale industry
+applications are overkill for smaller organizations. Many publicly
+available resources are great if your organization is processing
+millions of rows of data and over-engineering if your organization is
+processing thousands of rows.\footnote{Or even less!}
+
+This resource gap is part of what drives the lack of systematic,
+repeatable processes for creating accurate datasets at smaller
+organizations. This book aims to help fill that gap.
+
+\hypertarget{what-will-i-get-out-of-this-book}{%
+\section*{What Will I Get Out of This
+Book?}\label{what-will-i-get-out-of-this-book}}
+\addcontentsline{toc}{section}{What Will I Get Out of This Book?}
+
+We'll work on data engineering and validation from the ground up using
+R, an open-source language that's familiar to many people in smaller
+organizations. You won't have to touch any other programming languages
+or technologies to implement everything in this book.
+
+We'll start with how to create a pipeline using one remote
+dataset,\footnote{Instead of having to download a file locally} learn
+how to debug our new pipeline, add automated tests for data quality,
+extend the pipeline to multiple datasets, and perform certain automated
+tests on some of those datasets but not others.
+
+This book will give you thte building blocks to create a systematic,
+repeatable, and scalable,\footnote{At least to \textasciitilde hundreds
+  of thousands of rows} pipeline for engineering accurate data within
+the R ecosystem.
+
+\hypertarget{who-is-this-book-for}{%
+\section*{Who is This Book For?}\label{who-is-this-book-for}}
+\addcontentsline{toc}{section}{Who is This Book For?}
+
+This book is primarily geared toward people working at smaller
+organizations\footnote{Think acaedmic labs, non-profits, local
+  governments, etc.} with at least intermediate experience in R.
+
+People interested in data engineering in general with a programming
+background outside R might also appreciate the ``from the ground up''
+approach. Other data engineering resources sometimes jump straight to a
+very high complexity level or assume a computer science
+background.\footnote{This book does not assume a computer science
+  background} If you're looking for an introduction to data engineering
+and validation at industry scale I'd recommend checking out the
+\href{https://www.youtube.com/@SeattleDataGuy/videos}{Seattle Data Guy's
+Youtube Videos}.
+
+I don't want to gatekeep anyone, and this book is unlikely to be a good
+way to acquaint yourself with R. If you're looking for an introductory
+experience for the R programming language, I'd recommend
+\href{https://psyteachr.github.io/ads-v2/}{Applied Data Skills} by Emily
+Nordmann and Lisa DeBruine.
+
+\hypertarget{who-wrote-this-book}{%
+\section*{Who Wrote This Book?}\label{who-wrote-this-book}}
+\addcontentsline{toc}{section}{Who Wrote This Book?}
+
+I'm \href{https://mcmullarkey.github.io/}{Michael Mullarkey}, a clinical
+psychology PhD who solves problems where data science and product
+overlap.
+
+I've also put together \emph{a lot} of data engineering and validation
+pipelines for smaller organizations. I'm a former academic who has
+worked multiple types of data jobs in industry. I enjoy helping my cat
+see birds in the window, watching horror movies with my spouse, and
+bringing a social science lens to software engineering.
+
+\bookmarksetup{startatroot}
+
+\hypertarget{building-our-first-pipeline}{%
+\chapter{Building Our First
+Pipeline}\label{building-our-first-pipeline}}
+
+A data pipeline has an unfortunate number of meanings. In this book
+we're talking about a repeatable, scalable process for ingesting data so
+that end-users can use it. Let's jump right into the building our first
+pipeline.
+
+\hypertarget{load-packages}{%
+\section{Load Packages}\label{load-packages}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(googlesheets4)}
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(here)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{what-you-would-do-with-a-local-file}{%
+\section{What You Would Do With a Local
+File}\label{what-you-would-do-with-a-local-file}}
+
+If we're doing what small organizations often do, we download a
+\texttt{.csv} file from somewhere, stick it in the same folder as our
+code, and run \texttt{read\_csv()} with the vague hope the data will
+read in correctly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_local }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"palmer\_penguins.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The aim of a data pipeline is to remove the manual steps like
+downloading the file and make the hope our data is correct more grounded
+in evidence.
+
+\hypertarget{starting-a-reproducible-pipeline}{%
+\section{Starting a Reproducible
+Pipeline}\label{starting-a-reproducible-pipeline}}
+
+``Reading a remote file'' can sound scary, but R can help make it as
+straightforward as reading in a local file. Using the
+\texttt{googlesheets4} package, we'll read in a remote file that
+contains the raw
+\href{https://allisonhorst.github.io/palmerpenguins/}{Palmer Penguins}
+data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Since this Google Sheet is public to anyone with the link we don\textquotesingle{}t need}
+\CommentTok{\# to authenticate}
+
+\FunctionTok{gs4\_deauth}\NormalTok{()}
+
+\CommentTok{\# Get the URL of our Google Sheet}
+
+\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{"https://docs.google.com/spreadsheets/d/1v0lG{-}4arxF\_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw/edit?usp=sharing"}
+
+\CommentTok{\# Read in the penguins data using the googlesheets4 package}
+
+\NormalTok{penguins\_remote }\OtherTok{\textless{}{-}} \FunctionTok{read\_sheet}\NormalTok{(url)}
+\end{Highlighting}
+\end{Shaded}
+
+And we've kicked off our pipeline! We'll focus on reading remotely from
+Google Sheets in this textbook since everyone will be able to access it
+for learning purposes. See this footnote for R packages that can help
+you read in your data from other sources.\footnote{The
+  \href{https://docs.ropensci.org/qualtRics/}{qualtRics package} for
+  Qualtrics,
+  \href{http://soubhikbarari.com/svmkR/articles/svmkR.html}{svmkR} for
+  Survey Monkey,
+  \href{https://cran.r-project.org/web/packages/rtypeform/readme/README.html}{rtypeform}
+  for Typeform}
+
+\hypertarget{only-one-more-step-to-complete-a-minimal-reproducible-pipeline}{%
+\section{Only One More Step to Complete a Minimal, Reproducible
+Pipeline}\label{only-one-more-step-to-complete-a-minimal-reproducible-pipeline}}
+
+The final step of our minimal pipeline is writing the data to a location
+where end-users can access it. In this case we'll write the raw Palmer
+Penguins data to the ``raw'' folder in our R Project.\footnote{If you're
+  not already I'd highly recommend organizing your R infrastrcture using
+  Projects, see
+  \href{https://r4ds.hadley.nz/workflow-scripts.html\#projects}{this
+  resource} on how to get started} We use the \texttt{here} package to
+make sure we don't lose track of our files.\footnote{Also note that we
+  have to create the ``raw/'' folder within our project before writing
+  this code, or else we'll get an ambiguous error}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output\_path }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins.csv"}\NormalTok{)}
+
+\FunctionTok{write\_csv}\NormalTok{(penguins\_remote, output\_path)}
+\end{Highlighting}
+\end{Shaded}
+
+And our first, minimal data pipeline is complete! We've created a
+process where we could open an R Project, run a script, and have an
+updated version of our data available to end-users. We're just getting
+started, and in the next chapter we'll make some much needed upgrades to
+this minimal pipeline.
+
+\bookmarksetup{startatroot}
+
+\hypertarget{initial-pipeline-upgrades}{%
+\chapter{Initial Pipeline Upgrades}\label{initial-pipeline-upgrades}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(googlesheets4)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\FunctionTok{library}\NormalTok{(pointblank)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{improve-how-we-call-the-sheet}{%
+\section{Improve How We Call The
+Sheet}\label{improve-how-we-call-the-sheet}}
+
+Improving our pipeline means looking for ways, big and small, to improve
+our code.
+
+We get an opportunity right off the bat! Rather than copy/pasting the
+entire URL we can just take the sheet ID of of our Google Sheet. Getting
+the same information with less keystrokes and opportunity for error is
+always a win.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Since this Google Sheet is public to anyone with the link we don\textquotesingle{}t need}
+\CommentTok{\# to authenticate}
+
+\FunctionTok{gs4\_deauth}\NormalTok{()}
+
+\CommentTok{\# Get the ID of our Google Sheet}
+
+\NormalTok{sheet\_id }\OtherTok{\textless{}{-}} \StringTok{"1v0lG{-}4arxF\_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw"}
+
+\CommentTok{\# Read in the penguins data using the googlesheets4 package}
+
+\NormalTok{penguins\_remote\_improved }\OtherTok{\textless{}{-}} \FunctionTok{read\_sheet}\NormalTok{(sheet\_id)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{still-read-in-raw-data}{%
+\section{Still Read in Raw Data}\label{still-read-in-raw-data}}
+
+We'll continue our pipeline as in the last chapter by writing our just
+ingested data to the ``raw/'' folder in our R Project.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output\_path\_improved }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins\_improved.csv"}\NormalTok{)}
+
+\FunctionTok{write\_csv}\NormalTok{(penguins\_remote\_improved, output\_path\_improved)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{add-some-pre-processing}{%
+\section{Add Some Pre-Processing}\label{add-some-pre-processing}}
+
+Let's start by using the \texttt{\{janitor\}} package to clean up our
+column names. This will make it easier to work with the data moving
+forward.
+
+A big part of data engineering is naming things consistently and
+choosing how to format your variables. Naming things sounds simple
+\href{https://www.mediawiki.org/wiki/Naming_things}{but is notoriously
+difficult}.
+
+Keeping names simple, avoiding ambiguity where possible, and using a
+consistent structure for names can all help. The
+\href{https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html}{\texttt{\{janitor\}}
+package} helps us enforce a consistent structure for our variables in
+one line of code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_improved\_initial }\OtherTok{\textless{}{-}} 
+  \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins\_improved.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+In the raw Palmer Penguins data the variable names' structure is all
+over the place. ``studyName'' uses camel case, there's inconsistent
+capitalization across names, special characters like ``('' that can
+cause issues on some systems, and there are often spaces.\footnote{Which
+  are annoying to remember and computers hate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_remote\_improved }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "studyName"           "Sample Number"       "Species"            
+ [4] "Region"              "Island"              "Stage"              
+ [7] "Individual ID"       "Clutch Completion"   "Date Egg"           
+[10] "Culmen Length (mm)"  "Culmen Depth (mm)"   "Flipper Length (mm)"
+[13] "Body Mass (g)"       "Sex"                 "Delta 15 N (o/oo)"  
+[16] "Delta 13 C (o/oo)"   "Comments"           
+\end{verbatim}
+
+After running \texttt{clean\_names()} we get consistent ``snake
+case''\footnote{Where each word is separated by an ``\_''} separation
+for words, consistent lower-case for all characters, no special
+characters like ``('' and no spaces. This standardization makes it
+easier to remember, type, and reuse these variable names. Enforce a
+standard like this for your data and your end-users will thank you.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_improved\_initial }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "study_name"        "sample_number"     "species"          
+ [4] "region"            "island"            "stage"            
+ [7] "individual_id"     "clutch_completion" "date_egg"         
+[10] "culmen_length_mm"  "culmen_depth_mm"   "flipper_length_mm"
+[13] "body_mass_g"       "sex"               "delta_15_n_o_oo"  
+[16] "delta_13_c_o_oo"   "comments"         
+\end{verbatim}
+
+\hypertarget{scanning-our-data-for-problems}{%
+\section{Scanning Our Data for
+Problems}\label{scanning-our-data-for-problems}}
+
+Now that we've made our variable names easier to work with let's dive
+into the actual data. The \texttt{scan\_data()} function from the
+\texttt{\{pointblank\}} package in R makes it easy to get a high level
+overview of our data. I want the ten-thousand foot view first, so let's
+look at just the overview of our data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scan\_data}\NormalTok{(penguins\_improved\_initial, }\AttributeTok{sections =} \StringTok{"O"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule()
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+Columns
+\end{minipage} & 17 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Rows
+\end{minipage} & 344 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{NA}s
+\end{minipage} & 2,365 (40.44\%) \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Duplicate Rows
+\end{minipage} & 0 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{where-did-our-data-go}{%
+\section{Where Did Our Data Go??}\label{where-did-our-data-go}}
+
+Over 40\% of our data is missing, which seems like a bad sign. The
+\texttt{scan\_data()} function can help us see where this data is
+missing quickly with a handy visualization.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scan\_data}\NormalTok{(penguins\_improved\_initial, }\AttributeTok{sections =} \StringTok{"M"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\href{/a}{a}",l.leadingWhitespace=3===a.firstChild.nodeType,l.tbody=!a.getElementsByTagName("tbody").length,l.htmlSerialize=!!a.getElementsByTagName("link").length,l.html5Clone="\textless:nav\textgreater"!==d.createElement("nav").cloneNode(!0).outerHTML,c.type="checkbox",c.checked=!0,b.appendChild(c),l.appendChecked=c.checked,a.innerHTML="
+
+Okay, so we've already narrowed our problem down to a certain set of
+columns where the data seems to be almost entirely missing. Maybe it's
+on purpose and we're fine?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_remote\_improved }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(culmen\_length\_mm}\SpecialCharTok{:}\NormalTok{body\_mass\_g,delta\_15\_n\_o\_oo,delta\_13\_c\_o\_oo))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 344 x 6
+   culmen_length_mm culmen_depth_mm flipper_length_mm body_mass_g
+   <list>           <list>          <list>            <list>     
+ 1 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 2 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 3 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 4 <chr [1]>        <chr [1]>       <chr [1]>         <chr [1]>  
+ 5 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 6 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 7 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 8 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+ 9 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+10 <dbl [1]>        <dbl [1]>       <dbl [1]>         <dbl [1]>  
+# i 334 more rows
+# i 2 more variables: delta_15_n_o_oo <list>, delta_13_c_o_oo <list>
+\end{verbatim}
+
+Not quite. Most of the ``missing'' data are hiding in list-columns, a
+column type in R that can contain a whole list within each row. So the
+data isn't so much ``missing'' as ``inaccessible in its current
+format.''
+
+This list-column property can be useful in certain cases, but it wasn't
+what we were going for here. What do we do now?
+
+\hypertarget{data-engineering-is-about-tradeoffs-procedures}{%
+\section{Data Engineering is About Tradeoffs +
+Procedures}\label{data-engineering-is-about-tradeoffs-procedures}}
+
+One rule we've likely all heard is to never touch ``raw'' data. However,
+in a data engineering role the ``raw'' data can be completely unusable,
+nonsensical, or worse.
+
+Having a reproducible pipeline with automated checks for data quality
+can help, and there's
+\href{https://www.thenewatlantis.com/publications/why-data-is-never-raw}{still
+a human\footnote{or ideally a set of humans} making these decisions}.
+
+Therefore, while it's good practice to not edit ``raw'' data files once
+they're established we still want the ``raw'' data to contain the
+information we need. Let's figure out how to rescuse the information out
+of those list-columns.
+
+Since I happen to know these values are ``nested'' in lists maybe we can
+access them by using the \texttt{unnest()} function. Let's try that on
+the offending columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_remote\_improved }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unnest}\NormalTok{(}\FunctionTok{c}\NormalTok{(culmen\_length\_mm}\SpecialCharTok{:}\NormalTok{body\_mass\_g,delta\_15\_n\_o\_oo,delta\_13\_c\_o\_oo))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Error in `list_unchop()`:
+! Can't combine `x[[1]]` <double> and `x[[4]]` <character>.
+\end{verbatim}
+
+\hypertarget{are-we-doomed}{%
+\section{Are We Doomed?}\label{are-we-doomed}}
+
+Nope! Errors are an inevitable part of improving a pipeline. Also, if
+you're not finding anything weird with your pipeline I'd be more nervous
+than if you find errors like this one.
+
+In this case, we see there are values of multiple types\footnote{type
+  double and type character} in a column that can't be combined. I have
+a hunch based on experience, which I can investigate further by looking
+at the ``sex'' column.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_remote\_improved }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{count}\NormalTok{(sex)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 3 x 2
+  sex        n
+  <chr>  <int>
+1 FEMALE   165
+2 MALE     168
+3 NA        11
+\end{verbatim}
+
+Aha! It looks like the value ``NA'' is getting read as a character
+variable rather than a missing value. This could be what's going on with
+our initial read using \texttt{read\_sheet()} Let's investigate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_na\_fix }\OtherTok{\textless{}{-}} \FunctionTok{read\_sheet}\NormalTok{(sheet\_id, }\AttributeTok{na =} \StringTok{"NA"}\NormalTok{)}
+
+\NormalTok{penguins\_na\_fix }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(culmen\_length\_mm}\SpecialCharTok{:}\NormalTok{body\_mass\_g,delta\_15\_n\_o\_oo,delta\_13\_c\_o\_oo))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 344 x 6
+   culmen_length_mm culmen_depth_mm flipper_length_mm body_mass_g
+              <dbl>           <dbl>             <dbl>       <dbl>
+ 1             39.1            18.7               181        3750
+ 2             39.5            17.4               186        3800
+ 3             40.3            18                 195        3250
+ 4             NA              NA                  NA          NA
+ 5             36.7            19.3               193        3450
+ 6             39.3            20.6               190        3650
+ 7             38.9            17.8               181        3625
+ 8             39.2            19.6               195        4675
+ 9             34.1            18.1               193        3475
+10             42              20.2               190        4250
+# i 334 more rows
+# i 2 more variables: delta_15_n_o_oo <dbl>, delta_13_c_o_oo <dbl>
+\end{verbatim}
+
+Fantastic, the information from these columns seems to be available to
+us now. Let's check the overall dataframe using scan data again, this
+time with the overview + missingness plot generated simultaneously.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scan\_data}\NormalTok{(penguins\_na\_fix, }\AttributeTok{sections =} \StringTok{"OM"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule()
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+Columns
+\end{minipage} & 17 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Rows
+\end{minipage} & 344 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{NA}s
+\end{minipage} & 336 (5.75\%) \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Duplicate Rows
+\end{minipage} & 0 \\
+\bottomrule()
+\end{longtable}
+
+Down to \textasciitilde6\% missing data! Most of that missingness seems
+concentrated in the ``comments'' column, which we can take a quick peek
+at.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_na\_fix }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(comments)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 344 x 1
+   comments                             
+   <chr>                                
+ 1 Not enough blood for isotopes.       
+ 2 <NA>                                 
+ 3 <NA>                                 
+ 4 Adult not sampled.                   
+ 5 <NA>                                 
+ 6 <NA>                                 
+ 7 Nest never observed with full clutch.
+ 8 Nest never observed with full clutch.
+ 9 No blood sample obtained.            
+10 No blood sample obtained for sexing. 
+# i 334 more rows
+\end{verbatim}
+
+Based on our investigation and the Palmer Penguins documentation this
+data is looking much more like the data we'd expect.
+
+\hypertarget{an-already-improved-pipeline}{%
+\section{An Already Improved
+Pipeline}\label{an-already-improved-pipeline}}
+
+We have a much better pipeline than we did just a chapter ago!
+
+How did I know about the \texttt{na} argument inside of
+\texttt{read\_sheet()}? I looked at the documentation! Also, as you
+develop better instincts you can press Ctrl + Spacebar to see what
+parameters like \texttt{na} are available inside of a function like
+\texttt{read\_sheet()}.
+
+Let's read this version with our \texttt{NA} fix into the folder so we
+can continue to upgrade our pipeline. We're going to overwrite the
+previous, non-useful version of the file. However, we need to be careful
+when building pipelines that we only overwrite files when we mean to!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output\_path\_nafix }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins\_improved.csv"}\NormalTok{)}
+
+\FunctionTok{write\_csv}\NormalTok{(penguins\_na\_fix, output\_path\_nafix)}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{add-an-automated-test}{%
+\chapter{Add an Automated Test}\label{add-an-automated-test}}
+
+Let's run back through our pipeline and make some further improvements.
+Yes, it will involve learning what an automated test is and why you'll
+learn to love them!
+
+\hypertarget{load-packages-1}{%
+\section{Load Packages}\label{load-packages-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(googlesheets4)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\FunctionTok{library}\NormalTok{(pointblank)}
+\FunctionTok{library}\NormalTok{(lubridate)}
+\FunctionTok{library}\NormalTok{(glue)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{add-pre-processing-redux}{%
+\section{Add Pre-Processing, Redux}\label{add-pre-processing-redux}}
+
+Let's start by using the \texttt{\{janitor\}} package to clean up our
+column names. This will make it easier to work with the data moving
+forward.
+
+You'll notice I had to call the \texttt{clean\_names()} function many
+times in the previous chapter, which we want to avoid. Ideally we copy
+and paste as little as possible while writing code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_improved\_redux }\OtherTok{\textless{}{-}} 
+  \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins\_improved.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{stop-coding}{%
+\section{Stop Coding}\label{stop-coding}}
+
+A key part to improving our code often involves taking a step back.
+Rather than charging ahead we can figure out what we want to accomplish
+and the steps we need to get there.
+
+\hypertarget{make-a-plan}{%
+\section{Make a Plan}\label{make-a-plan}}
+
+A common practice in software development is to write down a sketch of
+the data we have and a sketch of the data we want. Then, we chart out
+the individual steps to get us from where we are to where we want to be.
+
+This approach can help us build stronger intuitions about how to
+engineer and validate data. Using this strategy also prevents us from
+getting lost in a maze of code we don't understand why we wrote.
+
+There are plenty of ways to make this plan happen. You can write it in a
+physical notebook, a Google Doc, etc. I tend to like writing pseudocode
+with comments like my solutions already magically exist. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# I have data with duplicate IDs in it right now}
+
+\NormalTok{non\_duplicated\_data }\OtherTok{\textless{}{-}}\NormalTok{ duplicated\_data }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# I want to remove those duplicate IDs only leaving the most recent row but retain all information}
+  \FunctionTok{disapper\_duplicates}\NormalTok{(}\AttributeTok{most\_recent =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{keep\_everything =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# And then have data with no duplicates, all other info, and only the most recent of each ID}
+  \FunctionTok{print}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Error in disapper_duplicates(., most_recent = TRUE, keep_everything = TRUE): could not find function "disapper_duplicates"
+\end{verbatim}
+
+\texttt{disappear\_duplicates()} isn't a real function, and now that
+I've thought about what I'm looking to accomplish finding a real
+function will be easier.
+
+\hypertarget{our-goal-in-data-engineering-is-tidy-accurate-data}{%
+\subsection{Our Goal in Data Engineering is Tidy, Accurate
+Data}\label{our-goal-in-data-engineering-is-tidy-accurate-data}}
+
+When we're making a plan while data engineering, we know we want to end
+up with tidy, accurate data. Our engineering and validation efforts are
+steps toward this ultimate goal.
+
+\hypertarget{the-definition-of-tidy-depends-on-context}{%
+\subsection{The Definition of Tidy Depends on
+Context}\label{the-definition-of-tidy-depends-on-context}}
+
+\begin{itemize}
+\tightlist
+\item
+  Tidy data is
+  \href{https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html}{data
+  where}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Every column is a variable
+  \item
+    Every row is an observation
+  \item
+    Every cell is a single value
+  \end{itemize}
+\end{itemize}
+
+However, what counts as a ``single value'' or ``observation'' can vary
+based on context. For example, if we want data with every measurement of
+our penguins our defintion of ``a single value'' will be different than
+if we want data with only the most recent measurement from each penguin.
+
+Code and automated pipelines can't make these decisions for us. These
+are people problems masquerading as coding problems.
+
+\hypertarget{the-definiton-of-accurate-depends-on-context}{%
+\subsection{The Definiton of Accurate Depends on
+Context}\label{the-definiton-of-accurate-depends-on-context}}
+
+This is even more true when it comes to an organization's definition of
+``accurate.'' Almost no real-world dataset will ever achieve 100\%
+accuracy in its data, so we have to prioritize. How much do we care if
+there are duplicate IDs in the data? Impossible values in our key
+outcomes?
+
+Behaviors betray priorities here. We implicitly say we don't care much
+about potential errors if we don't bother to check. Or at least we don't
+care as much about those errors as other organizational priorities. That
+decision might be right or wrong, but either way it's a human process
+that no amount of code can solve directly.
+
+\hypertarget{convert-plans-into-real-code}{%
+\section{Convert Plans Into Real
+Code}\label{convert-plans-into-real-code}}
+
+Let's say our definition of tidy data in this case is only one
+measurement per penguin. We also know\footnote{Read: Have made up for
+  demonstration purposes} that we only want the last measurement
+collected from each penguin. We already wrote pseudocode with comments
+up above to handle this situation. We can express those plans with
+actual code here:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_unique\_sample }\OtherTok{\textless{}{-}}\NormalTok{ penguins\_improved\_redux }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# Data with duplicates}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(date\_egg)) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# Order the dataset with most recent measurements first}
+  \FunctionTok{distinct}\NormalTok{(individual\_id, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# Keep only distinct individual\_id rows and keep all the other columns}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{we-cant-assume-our-plans-will-work}{%
+\section{We Can't Assume Our Plans Will
+Work}\label{we-cant-assume-our-plans-will-work}}
+
+If the above code is executed well we should get what we want, and we
+should check behind ourselves!
+
+We tend to do this in an ad-hoc way in our code. The most common way is
+to see if the code runs at all. If it doesn't we can safely assume we
+failed. The next most common is just printing out output and seeing if
+it looks ok.
+
+These are understandable approaches, and we can do better
+
+\hypertarget{lets-automatically-check-if-our-plans-worked}{%
+\section{Let's Automatically Check If Our Plans
+Worked}\label{lets-automatically-check-if-our-plans-worked}}
+
+Luckily the the \texttt{\{pointblank\}} package is way more than the
+\texttt{scan\_data()} function we used in the last chapter. It's an
+entire ecosystem for checking our data more thoroughly, creating
+reports, and even emailing those reports automatically.
+
+You can find more info at the package's
+\href{https://rstudio.github.io/pointblank/}{docs} or this
+\href{https://www.youtube.com/watch?v=hxkTbnIXI-o}{Youtube video with
+demonstrations}. We can demonstrate its functionality here by checking
+to make sure each \texttt{individual\_id} in our penguins data is unique
+now.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a pointblank \textasciigrave{}agent\textasciigrave{} object, with the}
+\CommentTok{\# penguins\_unique\_sample as the target table. Use one validation}
+\CommentTok{\# functions, then, \textasciigrave{}interrogate()\textasciigrave{}. The agent will}
+\CommentTok{\# then have some useful intel.}
+
+\NormalTok{penguins\_distinct\_agent }\OtherTok{\textless{}{-}} 
+\NormalTok{  penguins\_unique\_sample }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{create\_agent}\NormalTok{(}
+    \AttributeTok{label =} \StringTok{"Check for unique penguin ids"}\NormalTok{,}
+    \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rows\_distinct}\NormalTok{(}
+    \FunctionTok{vars}\NormalTok{(individual\_id)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{interrogate}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{making-the-results-of-our-automatic-tests-visible}{%
+\section{Making The Results of Our Automatic Tests
+Visible}\label{making-the-results-of-our-automatic-tests-visible}}
+
+We want to be able to figure out if our tests passed or failed easily.
+If something's wrong with the data, we want our process to ``fail''
+loudly and in a way we can see! That loud ``failure'' is a success in
+data engineering because we've prevented contaminiated data from
+infecting the rest of our process.
+
+Luckily \texttt{\{pointblank\}} gives us easy to understand reports when
+we call an \texttt{agent} object like
+\texttt{penguins\_distinct\_agent}. The ``warning'' circle isn't filled
+in under ``W'' which means our automated test has passed!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins\_distinct\_agent}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Check for unique penguin ids}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$190$</code> & <code>$190$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:01:45 MDT
+\textless{} 1 s
+2023-09-26 17:01:45 MDT\\
+\end{minipage}
+
+\hypertarget{we-will-never-have-100-converage-with-automatic-tests}{%
+\section{We Will Never Have 100\% Converage with Automatic
+Tests}\label{we-will-never-have-100-converage-with-automatic-tests}}
+
+Which tests we create are human, scientific issues that we enshrine in
+code. For example, I didn't include any kind of check here to see if we
+for sure got the most recent sample from each penguin.
+
+Since this is for demonstration purposes, that's fine. If it's crucial
+for our research questions of interest that only the most recent sample
+be used, we should build a check for that too.
+
+Every decision we make is a trade-off. So while we won't get 100\%
+coverage with these automatic tests, we should prioritize testing things
+that would catastrophically impact our data.
+
+\hypertarget{finish-this-upgraded-pipeline}{%
+\section{Finish This Upgraded
+Pipeline}\label{finish-this-upgraded-pipeline}}
+
+We then write this processed data without duplicate IDs into a
+``processed/'' folder to finish out our pipeline.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{output\_path\_processed }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/processed/palmer\_penguins\_improved.csv"}\NormalTok{)}
+
+\FunctionTok{write\_csv}\NormalTok{(penguins\_unique\_sample, output\_path\_processed)}
+\end{Highlighting}
+\end{Shaded}
+
+And let's also write a version of the automated test report into another
+folder.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{report\_path\_processed }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\FunctionTok{glue}\NormalTok{(}\StringTok{"reports/processed/\{now()\}\_palmer\_penguins\_report.html"}\NormalTok{))}
+
+\CommentTok{\# Commented out here so we don\textquotesingle{}t create a new version of the report during every reload}
+\CommentTok{\# export\_report(penguins\_distinct\_agent, report\_path\_processed)}
+\end{Highlighting}
+\end{Shaded}
+
+If all our end-users need is penguins data without duplicate IDs we're
+set! And we even have a report that will automatically save when we run
+the script so we'll know if we passed the data quality checks.
+
+And most organizations have far more than one dataset of interest. Let's
+extend our pipeline to automatically handle multiple datasets.
+
+\bookmarksetup{startatroot}
+
+\hypertarget{handle-multiple-datasets}{%
+\chapter{Handle Multiple Datasets}\label{handle-multiple-datasets}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(googlesheets4)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\FunctionTok{library}\NormalTok{(pointblank)}
+\FunctionTok{library}\NormalTok{(glue)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{what-if-we-want-our-pipeline-to-include-more-than-one-dataset}{%
+\section{What If We Want Our Pipeline to Include More Than One
+Dataset?}\label{what-if-we-want-our-pipeline-to-include-more-than-one-dataset}}
+
+Nearly every organization will have multiple datasets in need of
+engineering. A temptation when updating our pipeline is to just
+copy/paste the code we used for a previous dataset.
+
+While this might be faster at first, this approach scales terribly. And
+even if you have the finest attention to detail you're bound to make a
+mistake at some point.
+
+So what do we do instead?
+
+We use functions that allow us to do the same process many times
+automatically. These functions will allow us to write a similar amount
+of code for handling 100 datasets as we did for handling 1 dataset.
+
+The first function we'll use to read in three datasets at once is called
+\texttt{map()}.
+
+\hypertarget{modifying-our-previous-code}{%
+\section{Modifying Our Previous
+Code}\label{modifying-our-previous-code}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Since this Google Sheet is public to anyone with the link we don\textquotesingle{}t need}
+\CommentTok{\# to authenticate}
+
+\FunctionTok{gs4\_deauth}\NormalTok{()}
+
+\CommentTok{\# Get the IDs of our Google Sheets}
+
+\NormalTok{sheet\_ids }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"1v0lG{-}4arxF\_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw"}\NormalTok{,}
+               \StringTok{"1wPmFajaVyWIImmvEyf6wp16mAkX1PGC5jyKUx7s7DBQ"}\NormalTok{,}
+               \StringTok{"1Biy\_OhNxkaWDteBQt7AfzD89g1j2NY7mctYr50S2WVg"}\NormalTok{)}
+
+\CommentTok{\# Read in all the data using the googlesheets4 package}
+
+\NormalTok{all\_datasets\_raw }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(sheet\_ids, }\SpecialCharTok{\textasciitilde{}}\FunctionTok{read\_sheet}\NormalTok{(.x, }\AttributeTok{na =} \StringTok{"NA"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+There are more complicated, technically correct ways to think about what
+\texttt{map()} does, but for now:
+
+\texttt{map()} lets us write code like we're doing the process
+once\footnote{\texttt{read\_sheet("1v0lG-4arxF\_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw",\ na\ =\ "NA")}},
+replace the single instance\footnote{in this case a single
+  \texttt{sheet\_id}} with a placeholder \texttt{.x}, and run the code
+on a bunch of instances\footnote{in this case all the
+  \texttt{sheet\_ids}}.
+
+This is a lot to get our brains around at first, and it's one of the
+engines that makes \emph{scalable}, reproducible data pipelines
+possible. For a resource focused on helping you understand
+\texttt{map()} click
+\href{https://jennybc.github.io/purrr-tutorial/index.html}{here}
+
+\hypertarget{write-raw-data-all-at-once}{%
+\section{Write Raw Data All at Once}\label{write-raw-data-all-at-once}}
+
+What if we want to use \texttt{map()} with two inputs instead of one?
+\texttt{map2()} has us covered!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Creating all output paths (Could still be further optimized!)}
+
+\NormalTok{output\_paths\_improved }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/palmer\_penguins\_improved.csv"}\NormalTok{),}
+\NormalTok{                           here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/wellbeing.csv"}\NormalTok{),}
+\NormalTok{                           here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/telemetry.csv"}\NormalTok{))}
+
+\CommentTok{\# Writing all the files as .csv (Note: Could use \textasciigrave{}walk\textasciigrave{} instead of \textasciigrave{}map\textasciigrave{} because this is side effect only output)}
+
+\FunctionTok{map2}\NormalTok{(all\_datasets\_raw, output\_paths\_improved, }\SpecialCharTok{\textasciitilde{}}\FunctionTok{write\_csv}\NormalTok{(.x, .y))}
+\end{Highlighting}
+\end{Shaded}
+
+And we can actually future-proof this process even more.
+
+A mental exercise I use: Would this code be awful to type if there were
+100 cases?
+
+I definitely don't want to type out 100 full paths if I don't have to.
+
+We'll also introduce a \texttt{for} loop, which works like
+\texttt{map()} and is a more common way to do the same process lots of
+times across coding languages.
+
+You can also see why I favor \texttt{map()} when writing in R since it
+can compress \textasciitilde20 lines of code into as few as 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Write way less per path}
+
+\NormalTok{file\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"palmer\_penguins\_improved"}\NormalTok{,}
+                \StringTok{"wellbeing"}\NormalTok{,}
+                \StringTok{"telemetry"}\NormalTok{)}
+
+\CommentTok{\# Start with an empty list of file paths}
+
+\NormalTok{output\_paths\_loop }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\CommentTok{\# Create the for loop that will create a populated list of file paths}
+
+\ControlFlowTok{for}\NormalTok{ (file\_name }\ControlFlowTok{in}\NormalTok{ file\_names) \{}
+  
+  \CommentTok{\# Create the string needed for the file path using \textasciigrave{}glue\textasciigrave{}}
+  
+\NormalTok{  path\_init }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/\{file\_name\}.csv"}\NormalTok{)}
+  
+  \CommentTok{\# Create the path itself using \textasciigrave{}here\textasciigrave{}}
+  \CommentTok{\# Note, we could do this all at once but it\textquotesingle{}s less readable}
+  
+\NormalTok{  path }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(path\_init)}
+  
+  \CommentTok{\# Append (or add to the end) the current path to the formerly empty list}
+  
+\NormalTok{  output\_paths\_loop }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(output\_paths\_loop, path)}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+If we were following this process we'd then make sure to write our
+datasets into the raw folder.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Writing all the files as .csv (Note: Could use \textasciigrave{}walk\textasciigrave{} instead of \textasciigrave{}map\textasciigrave{} because this is side effect only output)}
+
+\FunctionTok{map2}\NormalTok{(all\_datasets\_raw, output\_paths\_loop, }\SpecialCharTok{\textasciitilde{}}\FunctionTok{write\_csv}\NormalTok{(.x, .y))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{add-pre-processing-to-our-multi-dataset-pipeline}{%
+\section{Add Pre-Processing to Our Multi-Dataset
+Pipeline}\label{add-pre-processing-to-our-multi-dataset-pipeline}}
+
+Let's start by using the \texttt{\{janitor\}} package to clean up our
+column names across all the datasets, rather than just one. We'll switch
+back to \texttt{map()} for this version of ``do multiple datasets at
+once.''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_datasets\_initial }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(file\_names, }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+  \CommentTok{\# Create file name}
+  
+\NormalTok{  path\_for\_read }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/\{.x\}.csv"}\NormalTok{)}
+  
+  \CommentTok{\# Read in the csv and clean the column names}
+  
+  \FunctionTok{read\_csv}\NormalTok{(path\_for\_read) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{clean\_names}\NormalTok{()}
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{lets-scan-our-data-for-any-obvious-problems}{%
+\section{Let's Scan Our Data for Any Obvious
+Problems}\label{lets-scan-our-data-for-any-obvious-problems}}
+
+We can still scan a single dataset by calling its position in our list.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scan\_data}\NormalTok{(all\_datasets\_initial[[}\DecValTok{2}\NormalTok{]], }\AttributeTok{sections =} \StringTok{"O"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule()
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+Columns
+\end{minipage} & 11 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Rows
+\end{minipage} & 238 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{NA}s
+\end{minipage} & 0 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Duplicate Rows
+\end{minipage} & 0 \\
+\bottomrule()
+\end{longtable}
+
+But we can also scan all our datasets at once and then output the
+reports.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{many\_reports }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(all\_datasets\_initial, }\SpecialCharTok{\textasciitilde{}}\FunctionTok{scan\_data}\NormalTok{(.x, }\AttributeTok{sections =} \StringTok{"O"}\NormalTok{))}
+\NormalTok{many\_reports[[}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule()
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+Columns
+\end{minipage} & 11 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Rows
+\end{minipage} & 238 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+\texttt{NA}s
+\end{minipage} & 0 \\
+\begin{minipage}[t]{\linewidth}\raggedright
+Duplicate Rows
+\end{minipage} & 0 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{we-can-automatically-check-our-data-across-many-datasets}{%
+\section{We Can Automatically Check Our Data Across Many
+Datasets}\label{we-can-automatically-check-our-data-across-many-datasets}}
+
+There are certain data quality checks we're going to want to do across
+all of our datasets. A lack of duplicate IDs is an example of one such
+check, so let's start there. Don't worry if you don't understand all
+this code yet, we're going to dive deep in the next chapter into how it
+works step by step.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Need to input the datasets and the name of the id variable for each}
+
+\NormalTok{id\_var\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"individual\_id"}\NormalTok{,}\StringTok{"participant\_id"}\NormalTok{, }\StringTok{"id"}\NormalTok{)}
+
+\NormalTok{all\_agents }\OtherTok{\textless{}{-}} \FunctionTok{map2}\NormalTok{(all\_datasets\_initial, id\_var\_names, }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+\NormalTok{  .x }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{create\_agent}\NormalTok{(}
+      \AttributeTok{label =} \StringTok{"Check for unique ids"}\NormalTok{,}
+      \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{rows\_distinct}\NormalTok{(}
+      \AttributeTok{columns =} \FunctionTok{vars}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{.y)}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{interrogate}\NormalTok{()}
+  
+\NormalTok{\})}
+
+\NormalTok{all\_agents[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Check for unique ids}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:00 MDT
+\textless{} 1 s
+2023-09-26 17:02:00 MDT\\
+\end{minipage}
+
+\hypertarget{we-now-have-a-reproducible-scalable-pipeline-with-automatic-checks-for-duplicate-ids}{%
+\section{We Now Have a Reproducible, Scalable Pipeline with Automatic
+Checks for Duplicate
+IDs}\label{we-now-have-a-reproducible-scalable-pipeline-with-automatic-checks-for-duplicate-ids}}
+
+It's worthwhile to pause here to think how much better than the status
+quo this is at many organizations. You can run this script anytime you
+want, get updated data across as many datasets as you have, and check
+all those datasets for duplicate IDs. This is a great accomplishment by
+itself, and we're not done yet.
+
+We're going to tackle how these map functions work in detail and use
+them to apply specific checks to some datasets but not others.
+
+\bookmarksetup{startatroot}
+
+\hypertarget{different-checks-for-different-datasets}{%
+\chapter{Different Checks for Different
+Datasets}\label{different-checks-for-different-datasets}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(googlesheets4)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(janitor)}
+\FunctionTok{library}\NormalTok{(pointblank)}
+\FunctionTok{library}\NormalTok{(glue)}
+\FunctionTok{library}\NormalTok{(gt)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\FunctionTok{library}\NormalTok{(lubridate)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{lets-be-real-different-datasets-will-require-different-checks}{%
+\section{Let's Be Real, Different Datasets Will Require Different
+Checks}\label{lets-be-real-different-datasets-will-require-different-checks}}
+
+While there are certain checks we'll want to do in a vast majority of
+datasets,\footnote{Like check for duplicate IDs} we'll need different
+automated checks for different datasets.
+
+This might feel like a huge wrench in our plan for automated checks, but
+it's not! Let's walk through how we can keep our pipeline moving.
+
+\hypertarget{lets-read-in-all-our-raw-data}{%
+\section{Let's Read in All Our Raw
+Data}\label{lets-read-in-all-our-raw-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Write way less per path}
+
+\NormalTok{file\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"palmer\_penguins\_improved"}\NormalTok{,}
+                \StringTok{"wellbeing"}\NormalTok{,}
+                \StringTok{"telemetry"}\NormalTok{)}
+
+\NormalTok{all\_datasets\_different }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(file\_names, }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+  \CommentTok{\# Create file name}
+  
+\NormalTok{  path\_for\_read }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"data\_from\_gsheets/raw/\{.x\}.csv"}\NormalTok{)}
+  
+  \CommentTok{\# Read in the csv and clean the column names}
+  
+  \FunctionTok{read\_csv}\NormalTok{(path\_for\_read) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{clean\_names}\NormalTok{()}
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{creating-flags-for-different-kinds-of-checks}{%
+\section{Creating `Flags' For Different Kinds of
+Checks}\label{creating-flags-for-different-kinds-of-checks}}
+
+Let's start with the example we've seen before, checking for duplicate
+IDs. Let's say we're not concerned about duplicate IDs in the
+\texttt{telemetry} data, but we still want to do that check in the
+\texttt{palmer\_penguins} and \texttt{well\_being} datasets.
+
+We can create a ``flag'' for the duplicate ID check. ``Flag'' is just a
+somewhat fancy way of saying a variable that returns \texttt{TRUE} when
+we want to perform the check and \texttt{FALSE} when we don't.
+
+Here's what that looks like in code. Don't worry if there's a lot here
+you don't understand yet, we'll go through a version step by step later!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Need to input the datasets and the name of the id variable for each}
+
+\NormalTok{id\_var\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"individual\_id"}\NormalTok{,}\StringTok{"participant\_id"}\NormalTok{, }\StringTok{"id"}\NormalTok{)}
+
+\NormalTok{check\_dupe\_ids }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\DecValTok{2}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\ConstantTok{FALSE}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{all\_agents\_conditional }\OtherTok{\textless{}{-}} \FunctionTok{pmap}\NormalTok{(}\FunctionTok{list}\NormalTok{(all\_datasets\_different, }
+\NormalTok{                                    id\_var\_names, }
+\NormalTok{                                    check\_dupe\_ids), }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+  \ControlFlowTok{if}\NormalTok{(..}\DecValTok{3} \SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) \{}
+    
+\NormalTok{    ..}\DecValTok{1} \SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{create\_agent}\NormalTok{(}
+      \AttributeTok{label =} \StringTok{"Check for unique ids"}\NormalTok{,}
+      \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{rows\_distinct}\NormalTok{(}
+      \AttributeTok{columns =} \FunctionTok{vars}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{..}\DecValTok{2}\NormalTok{)}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{interrogate}\NormalTok{()}
+    
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    
+    \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{no\_check =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{gt}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{tab\_header}\NormalTok{(}\StringTok{"No Check for Duplicate IDs"}\NormalTok{)}
+    
+\NormalTok{  \}}
+  
+  
+\NormalTok{\})}
+
+\NormalTok{all\_agents\_conditional[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}{c}
+\caption*{
+{\large No Check for Duplicate IDs}
+} \\ 
+\toprule
+no\_check \\ 
+\midrule
+TRUE \\ 
+\bottomrule
+\end{longtable}
+
+We have to introduce a new extension of the \texttt{map()} function:
+\texttt{pmap()}.
+
+Remember how we had \texttt{map2()} when we had two variables we wanted
+to iterate over at the same time? Rather than have \texttt{map3()} for 3
+inputs, \texttt{map4()} for 4 inputs, etc. we can use pmap with however
+many inputs we want.
+
+The biggest differences when using pmap is that instead of\texttt{.x}
+and \texttt{.y} we could use \texttt{..1} for the first input,
+\texttt{..2} for the second input, etc.
+
+We then use an \texttt{if\ else} statement to only perform the check for
+duplicate IDs when our flag equals \texttt{TRUE}. If it's false we
+create a table output explicitly saying the check wasn't performed.
+
+\hypertarget{creating-more-scalable-automated-checks}{%
+\section{Creating More Scalable, Automated
+Checks}\label{creating-more-scalable-automated-checks}}
+
+This is a great start, and I could imagine this getting unwieldy with
+even one more kind of check. If we wanted to add a variety of checks
+that do and don't apply to different datasets this code would become an
+impossible mess.
+
+Let's add another check and create a more scalable version of this code.
+
+First let's create the values we'll need for our checks. We'll need to
+grab the names of the columns we're checking.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create necessary input for id variable names}
+
+\NormalTok{id\_var\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"individual\_id"}\NormalTok{,}\StringTok{"participant\_id"}\NormalTok{, }\StringTok{"id"}\NormalTok{)}
+
+\CommentTok{\# Get the names of variables whose values we want to check}
+
+\NormalTok{vars\_value\_check }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(all\_datasets\_different[[}\DecValTok{1}\NormalTok{]] }\SpecialCharTok{\%\textgreater{}\%} 
+                          \FunctionTok{select}\NormalTok{(}\FunctionTok{starts\_with}\NormalTok{(}\StringTok{"culmen"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+                          \FunctionTok{names}\NormalTok{(),}
+\NormalTok{                      all\_datasets\_different[[}\DecValTok{2}\NormalTok{]] }\SpecialCharTok{\%\textgreater{}\%} 
+                        \FunctionTok{select}\NormalTok{(}\FunctionTok{starts\_with}\NormalTok{(}\StringTok{"wellbeing"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+                        \FunctionTok{names}\NormalTok{(),}
+\NormalTok{                      all\_datasets\_different[[}\DecValTok{3}\NormalTok{]] }\SpecialCharTok{\%\textgreater{}\%} 
+                        \FunctionTok{select}\NormalTok{(}\FunctionTok{starts\_with}\NormalTok{(}\StringTok{"accelerometer"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+                        \FunctionTok{names}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+But we know how to spot non-scalable copy-paste + coding now! Let's
+create a couple functions and map over them to get those column names
+more efficiently.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{id\_var\_names }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(all\_datasets\_different, }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+\NormalTok{  .x }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{select}\NormalTok{(}\FunctionTok{ends\_with}\NormalTok{(}\StringTok{"id"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{names}\NormalTok{()}
+  
+\NormalTok{\})}
+
+\NormalTok{var\_start\_with }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\StringTok{"culmen"}\NormalTok{,}\StringTok{"wellbeing"}\NormalTok{,}\StringTok{"accelerometer"}\NormalTok{)}
+
+\NormalTok{vars\_value\_check }\OtherTok{\textless{}{-}} \FunctionTok{map2}\NormalTok{(all\_datasets\_different, var\_start\_with, }\SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+  
+\NormalTok{  .x }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{select}\NormalTok{(}\FunctionTok{starts\_with}\NormalTok{(.y)) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{names}\NormalTok{()}
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+Notice how the \texttt{ends\_with("id")} call is only possible because
+all our ID variables end with the characters ``id''
+
+Naming things well and consistently is just as much a part of data
+engineering as writing code part 87!
+
+Anyway, let's create the flags for our checks. We'll use the
+\texttt{rep()} function to reduce keystrokes and make our flags more
+scalable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create check flags}
+
+\NormalTok{check\_dupe\_ids }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\DecValTok{2}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\ConstantTok{FALSE}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{check\_var\_range }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\ConstantTok{FALSE}\NormalTok{, }\DecValTok{1}\NormalTok{), }\FunctionTok{rep}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+And now we get to \texttt{pmap()}. First we'll create a function that
+uses the \texttt{..1}, \texttt{..2}, \texttt{..3} etc. to make our
+function work.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create more scalable pmap}
+
+\NormalTok{all\_agents\_conditional }\OtherTok{\textless{}{-}} \FunctionTok{pmap}\NormalTok{(}\AttributeTok{.l =} \FunctionTok{list}\NormalTok{(all\_datasets\_different, }
+\NormalTok{                                         id\_var\_names, }
+\NormalTok{                                         check\_dupe\_ids,}
+\NormalTok{                                         check\_var\_range,}
+\NormalTok{                                         vars\_value\_check),}
+                               \SpecialCharTok{\textasciitilde{}}\NormalTok{\{}
+    
+\NormalTok{    ..}\DecValTok{1} \SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{create\_agent}\NormalTok{(}
+        \AttributeTok{label =} \StringTok{"Conduct automated checks"}\NormalTok{,}
+        \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (..}\DecValTok{3} \SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+        \FunctionTok{rows\_distinct}\NormalTok{(.,}
+          \AttributeTok{columns =} \FunctionTok{vars}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{..}\DecValTok{2}\NormalTok{)}
+\NormalTok{          )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (..}\DecValTok{4} \SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        pointblank}\SpecialCharTok{::}\FunctionTok{col\_vals\_between}\NormalTok{(.,}
+          \AttributeTok{columns =}\NormalTok{ ..}\DecValTok{5}\NormalTok{,}
+          \AttributeTok{left =} \SpecialCharTok{{-}}\DecValTok{4}\NormalTok{,}
+          \AttributeTok{right =} \DecValTok{4}\NormalTok{,}
+          \AttributeTok{na\_pass =} \ConstantTok{TRUE}
+\NormalTok{        )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{interrogate}\NormalTok{()}
+
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+This code will technically run, give us the right output, and use
+functions to make it more scalable.
+
+It's also really hard to figure out which variable is which and what is
+happening! Let's create a version where we name all the variables we're
+passing into \texttt{pmap()} instead.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_conditional }\OtherTok{\textless{}{-}} \FunctionTok{pmap}\NormalTok{(}\AttributeTok{.l =} \FunctionTok{list}\NormalTok{(}\AttributeTok{dataset\_for\_check =}\NormalTok{ all\_datasets\_different, }
+                                         \AttributeTok{id =}\NormalTok{ id\_var\_names, }
+                                         \AttributeTok{check\_dupe\_ids =}\NormalTok{ check\_dupe\_ids,}
+                                         \AttributeTok{check\_var\_range =}\NormalTok{ check\_var\_range,}
+                                         \AttributeTok{vars\_value\_check =}\NormalTok{ vars\_value\_check),}
+                               \AttributeTok{.f =} \ControlFlowTok{function}\NormalTok{(dataset\_for\_check,}
+\NormalTok{                                             id,}
+\NormalTok{                                             check\_dupe\_ids,}
+\NormalTok{                                             check\_var\_range,}
+\NormalTok{                                             vars\_value\_check) \{}
+    
+\NormalTok{    dataset\_for\_check }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{create\_agent}\NormalTok{(}
+        \AttributeTok{label =} \StringTok{"Conduct automated tests"}\NormalTok{,}
+        \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (check\_dupe\_ids }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+        \FunctionTok{rows\_distinct}\NormalTok{(.,}
+          \AttributeTok{columns =} \FunctionTok{vars}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{id)}
+\NormalTok{          )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (check\_var\_range }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        pointblank}\SpecialCharTok{::}\FunctionTok{col\_vals\_between}\NormalTok{(.,}
+          \AttributeTok{columns =}\NormalTok{ vars\_value\_check,}
+          \AttributeTok{left =} \SpecialCharTok{{-}}\DecValTok{4}\NormalTok{,}
+          \AttributeTok{right =} \DecValTok{4}\NormalTok{,}
+          \AttributeTok{na\_pass =} \ConstantTok{TRUE}
+\NormalTok{        )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{interrogate}\NormalTok{()}
+
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-deep-dive-into-pmap}{%
+\section{\texorpdfstring{A Deep Dive Into
+\texttt{pmap()}}{A Deep Dive Into pmap()}}\label{a-deep-dive-into-pmap}}
+
+Still probably intimidating if you've never seen a \texttt{pmap()}
+function before.\footnote{Or even if you have!} Let's break down each
+part of this function using plain language.
+
+This part of the function lets us name our inputs. We can either give
+them shorter names (e.g., ``id'' instead of ``id\_var\_names'') or keep
+them the same (``check\_var\_range'').
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# .l = list(dataset\_for\_check = all\_datasets\_different,}
+\CommentTok{\#           id = id\_var\_names,}
+\CommentTok{\#           check\_dupe\_ids = check\_dupe\_ids, }
+\CommentTok{\#           check\_var\_range = check\_var\_range,}
+\CommentTok{\#           vars\_value\_check = vars\_value\_check)}
+\end{Highlighting}
+\end{Shaded}
+
+This part of the function let's \texttt{pmap} know we're going to
+execute a function using the parameters we just created instead of
+\texttt{..l} etc. Naming these parameters here lets us use those names
+in the function itself, which is way easier to understand than
+\texttt{..1} or \texttt{..2}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# .f = function(dataset\_for\_check,}
+\CommentTok{\#               id,}
+\CommentTok{\#               check\_dupe\_ids,}
+\CommentTok{\#               check\_var\_range,}
+\CommentTok{\#               vars\_value\_check}
+\CommentTok{\#               )}
+\end{Highlighting}
+\end{Shaded}
+
+In this chunk of the code we take a dataset from our list of raw
+datasets and create an agent using the \texttt{\{pointblank\}} package.
+We also tell the process to warn us if there's even one
+failure.\footnote{Though we don't stop the process at all becuase we
+  want all the checks to run even if an early one ``fails''}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# dataset\_for\_check \%\textgreater{}\%}
+\CommentTok{\#       create\_agent(}
+\CommentTok{\#         label = "Conduct automated tests",}
+\CommentTok{\#         actions = action\_levels(warn\_at = 1)}
+\CommentTok{\#       ) }
+\end{Highlighting}
+\end{Shaded}
+
+This looks a bit different than anything we've seen so far. What this
+code allows us to do is say ``Hey, if we said we wanted to check if
+there were duplicate IDs\footnote{\texttt{if\ (check\_dupe\_ids\ ==\ TRUE)}}
+then check if there are duplicate IDs\footnote{\texttt{rows\_distinct(.,columns\ =\ vars(!!!id))}}.
+Otherwise, just pass the dataframe through the pipleline as is without
+checking for duplicate IDs{[}\texttt{else\ .}{]}.''
+
+Another note, the \texttt{!!!id} looks a bit wild, and you don't have to
+fully understand what's happening there right now. All you need to know
+is this is one way to ``unquote'' variables that are passed in as
+character values\footnote{like ``individual\_id''} but for coding
+purposes need to not have quotes around them.\footnote{individual\_id}
+For more in depth discussion of this topic you can check out
+\href{https://dplyr.tidyverse.org/articles/programming.html}{this
+resource}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# \{if (check\_dupe\_ids == TRUE)}
+\CommentTok{\#         rows\_distinct(.,}
+\CommentTok{\#           columns = vars(!!!id)}
+\CommentTok{\#           )}
+\CommentTok{\#         else .}
+\CommentTok{\#         \}}
+\end{Highlighting}
+\end{Shaded}
+
+This chunk follows the same logic as the previous chunk, just for a
+different kind of check. ``Hey, if we said we wanted to check if some
+columns only had values inside of a certain range\footnote{\texttt{if\ (check\_var\_range\ ==\ TRUE)}}
+then check the columns we specify for only values between a certain
+range\footnote{\texttt{pointblank::col\_vals\_between(.,columns\ =\ vars\_value\_check,left\ =\ -4,right\ =\ 4,na\_pass\ =\ TRUE)}}.
+Otherwise, just pass the dataframe through the pipleline as is without
+checking for if some columns only had values inside of a certain
+range{[}\texttt{else\ .}{]}.''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# \{if (check\_var\_range == TRUE)}
+\CommentTok{\#         pointblank::col\_vals\_between(.,}
+\CommentTok{\#           columns = vars\_value\_check,}
+\CommentTok{\#           left = {-}4,}
+\CommentTok{\#           right = 4,}
+\CommentTok{\#           na\_pass = TRUE}
+\CommentTok{\#         )}
+\CommentTok{\#         else .}
+\CommentTok{\#         \}}
+\end{Highlighting}
+\end{Shaded}
+
+And this final bit produces the reports for each dataset!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#interrogate()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{looking-at-our-reports}{%
+\section{Looking at Our Reports}\label{looking-at-our-reports}}
+
+Lets look at those reports now.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Breaking my own rule about not copy/pasting code here since if I try }
+\CommentTok{\# to print list of agents all at once the formatting looks terrible }
+\CommentTok{\# in the book}
+
+\NormalTok{all\_agents\_conditional[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$344$</code> & <code>$76$</code><br><code>$0.22$</code> & <code>$268$</code><br><code>$0.78$</code> & ● & --- & --- &  \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:16 MDT
+\textless{} 1 s
+2023-09-26 17:02:16 MDT\\
+\end{minipage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_conditional[[}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$238$</code> & <code>$234$</code><br><code>$0.98$</code> & <code>$4$</code><br><code>$0.02$</code> & ● & --- & --- &  \\ 
+ & 2 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 3 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 4 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 5 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 6 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 7 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 8 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 9 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 10 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 11 &  &  &  &                                                              & ✓ & <code>$238$</code> & <code>$238$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:16 MDT
+\textless{} 1 s
+2023-09-26 17:02:16 MDT\\
+\end{minipage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_conditional[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 2 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$0.99$</code> & <code>$1$</code><br><code>$0.01$</code> & ● & --- & --- &  \\ 
+ & 3 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$0.99$</code> & <code>$2$</code><br><code>$0.01$</code> & ● & --- & --- &  \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:16 MDT
+\textless{} 1 s
+2023-09-26 17:02:16 MDT\\
+\end{minipage}
+
+We now have automated, different checks across multiple datasets!
+
+We didn't check whether values fell within a certain range in the
+\texttt{palmer\_penguins} data, we didn't check for duplicate IDs in our
+\texttt{telemetry} data, and we performed both of those checks in the
+\texttt{wellbeing} data.
+
+We also caught duplicate IDs in both datasets where we checked, along
+with a couple of columns with values way outside of our specified range
+in \texttt{telemetry}.
+
+\hypertarget{preprocessing-based-on-tests}{%
+\section{Preprocessing Based on
+Tests}\label{preprocessing-based-on-tests}}
+
+Let's apply the necessary preprocessing to the datasets, also using
+\texttt{pmap()} with preprocessing flags.
+
+This applies the same logic as our initial checks but this time we'll do
+a preprocessing step or not based on the flag.
+
+For example, we won't run \texttt{distinct()} on the telemetry dataset
+because we aren't concerned about duplicate IDs in that data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_datasets\_processed }\OtherTok{\textless{}{-}} \FunctionTok{pmap}\NormalTok{(}\AttributeTok{.l =} \FunctionTok{list}\NormalTok{(}\AttributeTok{dataset\_for\_clean =}\NormalTok{ all\_datasets\_different, }\AttributeTok{id =}\NormalTok{ id\_var\_names, }
+                                    \AttributeTok{clean\_dupe\_ids =}\NormalTok{ check\_dupe\_ids, }\AttributeTok{clean\_var\_range =}\NormalTok{ check\_var\_range,}
+                                    \AttributeTok{vars\_value\_check =}\NormalTok{ vars\_value\_check),}
+                               \AttributeTok{.f =} \ControlFlowTok{function}\NormalTok{(dataset\_for\_clean,}
+\NormalTok{                                             id,}
+\NormalTok{                                             clean\_dupe\_ids,}
+\NormalTok{                                             clean\_var\_range,}
+\NormalTok{                                             vars\_value\_check) \{}
+    
+\NormalTok{    dataset\_for\_clean }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (clean\_dupe\_ids }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+        \FunctionTok{distinct}\NormalTok{(.,}
+          \FunctionTok{pick}\NormalTok{(}\FunctionTok{contains}\NormalTok{(id)), }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (clean\_var\_range }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+        \FunctionTok{mutate}\NormalTok{(.,}
+               \FunctionTok{across}\NormalTok{(}
+                 \AttributeTok{.cols =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{vars\_value\_check),}
+                 \AttributeTok{.fns =} \SpecialCharTok{\textasciitilde{}}\FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{                   .x }\SpecialCharTok{\textgreater{}} \DecValTok{4} \SpecialCharTok{\textasciitilde{}} \FloatTok{4.0}\NormalTok{,}
+\NormalTok{                   .x }\SpecialCharTok{\textless{}} \SpecialCharTok{{-}}\DecValTok{4} \SpecialCharTok{\textasciitilde{}} \SpecialCharTok{{-}}\FloatTok{4.0}\NormalTok{,}
+                   \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ .x}
+\NormalTok{                 )}
+\NormalTok{               )}
+\NormalTok{        )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \}}
+
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+And finally let's re-run our tests
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_processed }\OtherTok{\textless{}{-}} \FunctionTok{pmap}\NormalTok{(}\AttributeTok{.l =} \FunctionTok{list}\NormalTok{(}\AttributeTok{dataset\_for\_check =}\NormalTok{ all\_datasets\_processed, }\AttributeTok{id =}\NormalTok{ id\_var\_names, }
+                                    \AttributeTok{check\_dupe\_ids =}\NormalTok{ check\_dupe\_ids, }\AttributeTok{check\_var\_range =}\NormalTok{ check\_var\_range,}
+                                    \AttributeTok{vars\_value\_check =}\NormalTok{ vars\_value\_check),}
+                               \AttributeTok{.f =} \ControlFlowTok{function}\NormalTok{(dataset\_for\_check,}
+\NormalTok{                                             id,}
+\NormalTok{                                             check\_dupe\_ids,}
+\NormalTok{                                             check\_var\_range,}
+\NormalTok{                                             vars\_value\_check) \{}
+    
+\NormalTok{    dataset\_for\_check }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{create\_agent}\NormalTok{(}
+        \AttributeTok{label =} \StringTok{"Conduct automated tests"}\NormalTok{,}
+        \AttributeTok{actions =} \FunctionTok{action\_levels}\NormalTok{(}\AttributeTok{warn\_at =} \DecValTok{1}\NormalTok{)}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (check\_dupe\_ids }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+        \FunctionTok{rows\_distinct}\NormalTok{(.,}
+          \AttributeTok{columns =} \FunctionTok{vars}\NormalTok{(}\SpecialCharTok{!!!}\NormalTok{id)}
+\NormalTok{          )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{      \{}\ControlFlowTok{if}\NormalTok{ (check\_var\_range }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        pointblank}\SpecialCharTok{::}\FunctionTok{col\_vals\_between}\NormalTok{(.,}
+          \AttributeTok{columns =}\NormalTok{ vars\_value\_check,}
+          \AttributeTok{left =} \SpecialCharTok{{-}}\DecValTok{4}\NormalTok{,}
+          \AttributeTok{right =} \DecValTok{4}\NormalTok{,}
+          \AttributeTok{na\_pass =} \ConstantTok{TRUE}
+\NormalTok{        )}
+        \ControlFlowTok{else}\NormalTok{ .}
+\NormalTok{        \} }\SpecialCharTok{\%\textgreater{}\%} 
+      \FunctionTok{interrogate}\NormalTok{()}
+
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_processed[[}\DecValTok{1}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$190$</code> & <code>$190$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:19 MDT
+\textless{} 1 s
+2023-09-26 17:02:19 MDT\\
+\end{minipage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_processed[[}\DecValTok{2}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  & — &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 2 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 3 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 4 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 5 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 6 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 7 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 8 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 9 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 10 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 11 &  &  &  &                                                              & ✓ & <code>$236$</code> & <code>$236$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:19 MDT
+\textless{} 1 s
+2023-09-26 17:02:19 MDT\\
+\end{minipage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_agents\_processed[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\setlength{\LTpost}{0mm}
+\begin{longtable}{lrlllccrrrcccc}
+\caption*{
+{\large Pointblank Validation} \\ 
+{\small Conduct automated tests}
+} \\ 
+\toprule
+ &  & STEP & COLUMNS & VALUES & TBL & EVAL & UNITS & PASS & FAIL & W & S & N & EXT \\ 
+\midrule
+ & 1 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 2 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+ & 3 &  &  &  &                                                              & ✓ & <code>$1K$</code> & <code>$1K$</code><br><code>$1.00$</code> & <code>$0$</code><br><code>$0.00$</code> & ○ & --- & --- & --- \\ 
+\bottomrule
+\end{longtable}
+\begin{minipage}{\linewidth}
+2023-09-26 17:02:19 MDT
+\textless{} 1 s
+2023-09-26 17:02:19 MDT\\
+\end{minipage}
+
+\hypertarget{finishing-the-pipeline-by-writing-the-new-datasets-to-processed-data}{%
+\section{Finishing the Pipeline by Writing the New Datasets to Processed
+Data\ldots{}}\label{finishing-the-pipeline-by-writing-the-new-datasets-to-processed-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Write way less per path}
+
+\NormalTok{file\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"palmer\_penguins\_improved"}\NormalTok{,}
+                \StringTok{"wellbeing"}\NormalTok{,}
+                \StringTok{"telemetry"}\NormalTok{)}
+
+\CommentTok{\# Start with an empty list of file paths}
+
+\NormalTok{output\_paths\_processed }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\CommentTok{\# Create the for loop that will create a populated list of file paths}
+
+\ControlFlowTok{for}\NormalTok{ (file\_name }\ControlFlowTok{in}\NormalTok{ file\_names) \{}
+  
+  \CommentTok{\# Create the string needed for the file path using \textasciigrave{}glue\textasciigrave{}}
+  
+\NormalTok{  path\_init }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"data\_from\_gsheets/processed/\{file\_name\}.csv"}\NormalTok{)}
+  
+  \CommentTok{\# Create the path itself using \textasciigrave{}here\textasciigrave{}}
+  \CommentTok{\# Note, we could do this all at once but it\textquotesingle{}s less readable}
+  
+\NormalTok{  path }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(path\_init)}
+  
+  \CommentTok{\# Append (or add to the end) the current path to the formerly empty list}
+  
+\NormalTok{  output\_paths\_processed }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(output\_paths\_processed, path)}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{map2}\NormalTok{(all\_datasets\_processed, output\_paths\_processed, }\SpecialCharTok{\textasciitilde{}}\FunctionTok{write\_csv}\NormalTok{(.x, .y))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{and-writing-automated-reports-to-their-folder}{%
+\section{And Writing Automated Reports to Their
+Folder}\label{and-writing-automated-reports-to-their-folder}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Start with an empty list of file paths}
+
+\NormalTok{report\_paths\_processed }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{()}
+
+\CommentTok{\# Create the for loop that will create a populated list of file paths}
+
+\ControlFlowTok{for}\NormalTok{ (file\_name }\ControlFlowTok{in}\NormalTok{ file\_names) \{}
+  
+  \CommentTok{\# Create the string needed for the file path using \textasciigrave{}glue\textasciigrave{}}
+  
+\NormalTok{  path\_init }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"reports/processed/\{now()\}\_\{file\_name\}\_report.html"}\NormalTok{)}
+  
+  \CommentTok{\# Create the path itself using \textasciigrave{}here\textasciigrave{}}
+  \CommentTok{\# Note, we could do this all at once but it\textquotesingle{}s less readable}
+  
+\NormalTok{  path }\OtherTok{\textless{}{-}}\NormalTok{ here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(path\_init)}
+  
+  \CommentTok{\# Append (or add to the end) the current path to the formerly empty list}
+  
+\NormalTok{  report\_paths\_processed }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(report\_paths\_processed, path)}
+  
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Commented out here so we don\textquotesingle{}t create a new version of the report during every reload}
+
+\CommentTok{\# map2(all\_agents\_processed, report\_paths\_processed, \textasciitilde{}export\_report(.x, .y))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+We now have all the building blocks necessary to create a scalable,
+reproducible pipeline with automated checks across all datasets from a
+single type of source. \texttt{\{pointblank\}} has a dizzying number of
+kinds of tests you can perform on your data, and you can learn more from
+\href{https://rstudio.github.io/pointblank/index.html}{its docs}.
+
+Many organizations will understandably stop here. They get there data
+from one kind of source\footnote{like Qualtrics} and will plan to run
+this pipeline manually whenever a lot of new data comes in. They'll also
+add new checks as they go.
+
+\begin{itemize}
+\tightlist
+\item
+  However, there are still three more advanced topics this resource
+  might cover:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Automated preprocessing based on failed checks + retesting after
+    that preprocessing
+  \item
+    Getting data from multiple kinds of sources before testing +
+    preprocessing
+  \item
+    Automatically running your data pipeline on a schedule.
+  \end{itemize}
+\item
+  If there's massive demand and I have more time than I anticipate, I
+  might:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Add a case study for data engineering in R
+  \item
+    Create a companion version of this textbook using Python + SQL to
+    help people bridge their data engineering skills to the far more
+    commonly used tools at larger scales.
+  \end{itemize}
+\end{itemize}
+
+
+
+\end{document}
