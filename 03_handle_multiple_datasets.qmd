@@ -1,0 +1,208 @@
+---
+title: "Handle Multiple Datasets"
+execute: 
+  warning: false
+  message: false
+---
+
+## Load Packages
+
+```{r}
+
+library(googlesheets4)
+library(tidyverse)
+library(here)
+library(janitor)
+library(pointblank)
+library(glue)
+
+```
+
+## What If We Want Our Pipeline to Include More Than One Dataset?
+
+Nearly every organization will have multiple datasets in need of engineering. A temptation when updating our pipeline is to just copy/paste the code we used for a previous dataset. 
+
+While this might be faster at first, this approach scales terribly. And even if you have the finest attention to detail you're bound to make a mistake at some point. 
+
+So what do we do instead? 
+
+We use functions that allow us to do the same process many times automatically. These functions will allow us to write a similar amount of code for handling 100 datasets as we did for handling 1 dataset. 
+
+The first function we'll use to read in three datasets at once is called `map()`. 
+
+## Modifying Our Previous Code
+
+```{r}
+
+# Since this Google Sheet is public to anyone with the link we don't need
+# to authenticate
+
+gs4_deauth()
+
+# Get the IDs of our Google Sheets
+
+sheet_ids <- c("1v0lG-4arxF_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw",
+               "1wPmFajaVyWIImmvEyf6wp16mAkX1PGC5jyKUx7s7DBQ",
+               "1Biy_OhNxkaWDteBQt7AfzD89g1j2NY7mctYr50S2WVg")
+
+# Read in all the data using the googlesheets4 package
+
+all_datasets_raw <- map(sheet_ids, ~read_sheet(.x, na = "NA"))
+
+```
+
+There are more complicated, technically correct ways to think about what `map()` does, but for now: 
+
+`map()` lets us write code like we're doing the process once^[`read_sheet("1v0lG-4arxF_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw", na = "NA")`], replace the single instance^[in this case a single `sheet_id`] with a placeholder `.x`, and run the code on a bunch of instances^[in this case all the `sheet_ids`]. 
+
+This is a lot to get our brains around at first, and it's one of the engines that makes *scalable*, reproducible data pipelines possible. For a resource focused on helping you understand `map()` click [here](https://jennybc.github.io/purrr-tutorial/index.html){target="_blank"}
+
+## Write Raw Data All at Once
+
+What if we want to use `map()` with two inputs instead of one? `map2()` has us covered! 
+
+```{r}
+#| results: false
+
+# Creating all output paths (Could still be further optimized!)
+
+output_paths_improved <- c(here::here("data_from_gsheets/raw/palmer_penguins_improved.csv"),
+                           here::here("data_from_gsheets/raw/wellbeing.csv"),
+                           here::here("data_from_gsheets/raw/telemetry.csv"))
+
+# Writing all the files as .csv (Note: Could use `walk` instead of `map` because this is side effect only output)
+
+map2(all_datasets_raw, output_paths_improved, ~write_csv(.x, .y))
+
+```
+
+And we can actually future-proof this process even more. 
+
+A mental exercise I use: Would this code be awful to type if there were 100 cases? 
+
+I definitely don't want to type out 100 full paths if I don't have to. 
+
+We'll also introduce a `for` loop, which works like `map()` and is a more common way to do the same process lots of times across coding languages. 
+
+You can also see why I favor `map()` when writing in R since it can compress ~20 lines of code into as few as 1. 
+
+```{r}
+
+# Write way less per path
+
+file_names <- c("palmer_penguins_improved",
+                "wellbeing",
+                "telemetry")
+
+# Start with an empty list of file paths
+
+output_paths_loop <- list()
+
+# Create the for loop that will create a populated list of file paths
+
+for (file_name in file_names) {
+  
+  # Create the string needed for the file path using `glue`
+  
+  path_init <- glue("data_from_gsheets/raw/{file_name}.csv")
+  
+  # Create the path itself using `here`
+  # Note, we could do this all at once but it's less readable
+  
+  path <- here::here(path_init)
+  
+  # Append (or add to the end) the current path to the formerly empty list
+  
+  output_paths_loop <- append(output_paths_loop, path)
+  
+}
+
+```
+
+If we were following this process we'd then make sure to write our datasets into the raw folder.
+
+```{r}
+#| results: false
+
+# Writing all the files as .csv (Note: Could use `walk` instead of `map` because this is side effect only output)
+
+map2(all_datasets_raw, output_paths_loop, ~write_csv(.x, .y))
+
+```
+
+
+## Add Pre-Processing to Our Multi-Dataset Pipeline
+
+Let's start by using the `{janitor}` package to clean up our column names across all the datasets, rather than just one. We'll switch back to `map()` for this version of "do multiple datasets at once."
+
+```{r}
+
+all_datasets_initial <- map(file_names, ~{
+  
+  # Create file name
+  
+  path_for_read <- glue("data_from_gsheets/raw/{.x}.csv")
+  
+  # Read in the csv and clean the column names
+  
+  read_csv(path_for_read) %>%
+    clean_names()
+  
+})
+
+```
+
+## Let's Scan Our Data for Any Obvious Problems
+
+We can still scan a single dataset by calling its position in our list.
+
+```{r}
+#| output: asis
+
+scan_data(all_datasets_initial[[2]], sections = "O")
+
+```
+
+But we can also scan all our datasets at once and then output the reports.
+
+```{r}
+#| output: asis
+
+many_reports <- map(all_datasets_initial, ~scan_data(.x, sections = "O"))
+many_reports[[2]]
+
+```
+
+## We Can Automatically Check Our Data Across Many Datasets
+
+There are certain data quality checks we're going to want to do across all of our datasets. A lack of duplicate IDs is an example of one such check, so let's start there. Don't worry if you don't understand all this code yet, we're going to dive deep in the next chapter into how it works step by step.
+
+```{r}
+
+# Need to input the datasets and the name of the id variable for each
+
+id_var_names <- c("individual_id","participant_id", "id")
+
+all_agents <- map2(all_datasets_initial, id_var_names, ~{
+  
+  .x %>%
+    create_agent(
+      label = "Check for unique ids",
+      actions = action_levels(warn_at = 1)
+    ) %>%
+    rows_distinct(
+      columns = vars(!!!.y)
+    ) %>%
+    interrogate()
+  
+})
+
+all_agents[[3]]
+
+```
+
+## We Now Have a Reproducible, Scalable Pipeline with Automatic Checks for Duplicate IDs
+
+It's worthwhile to pause here to think how much better than the status quo this is at many organizations. You can run this script anytime you want, get updated data across as many datasets as you have, and check all those datasets for duplicate IDs. This is a great accomplishment by itself, and we're not done yet. 
+
+We're going to tackle how these map functions work in detail and use them to apply specific checks to some datasets but not others.

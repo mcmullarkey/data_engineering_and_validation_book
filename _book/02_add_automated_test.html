@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Engineering and Validation - 3&nbsp; Add an Automated Test</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_handle_multiple_datasets.html" rel="next">
+<link href="./01_initial_pipeline_upgrades.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Add an Automated Test</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Engineering and Validation</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_building_first_pipeline.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Building Our First Pipeline</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_initial_pipeline_upgrades.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Initial Pipeline Upgrades</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_add_automated_test.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Add an Automated Test</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_handle_multiple_datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Handle Multiple Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_different_checks_different_datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Different Checks for Different Datasets</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#trust-me" id="toc-trust-me" class="nav-link active" data-scroll-target="#trust-me"><span class="toc-section-number">3.1</span>  Trust Me?</a></li>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages"><span class="toc-section-number">3.2</span>  Load Packages</a></li>
+  <li><a href="#add-pre-processing-redux" id="toc-add-pre-processing-redux" class="nav-link" data-scroll-target="#add-pre-processing-redux"><span class="toc-section-number">3.3</span>  Add Pre-Processing, Redux</a></li>
+  <li><a href="#stop-coding" id="toc-stop-coding" class="nav-link" data-scroll-target="#stop-coding"><span class="toc-section-number">3.4</span>  Stop Coding</a></li>
+  <li><a href="#make-a-plan" id="toc-make-a-plan" class="nav-link" data-scroll-target="#make-a-plan"><span class="toc-section-number">3.5</span>  Make a Plan</a>
+  <ul class="collapse">
+  <li><a href="#our-goal-in-data-engineering-is-tidy-accurate-data" id="toc-our-goal-in-data-engineering-is-tidy-accurate-data" class="nav-link" data-scroll-target="#our-goal-in-data-engineering-is-tidy-accurate-data"><span class="toc-section-number">3.5.1</span>  Our Goal in Data Engineering is Tidy, Accurate Data</a></li>
+  <li><a href="#the-definition-of-tidy-depends-on-context" id="toc-the-definition-of-tidy-depends-on-context" class="nav-link" data-scroll-target="#the-definition-of-tidy-depends-on-context"><span class="toc-section-number">3.5.2</span>  The Definition of Tidy Depends on Context</a></li>
+  <li><a href="#the-definiton-of-accurate-depends-on-context" id="toc-the-definiton-of-accurate-depends-on-context" class="nav-link" data-scroll-target="#the-definiton-of-accurate-depends-on-context"><span class="toc-section-number">3.5.3</span>  The Definiton of Accurate Depends on Context</a></li>
+  </ul></li>
+  <li><a href="#convert-plans-into-real-code" id="toc-convert-plans-into-real-code" class="nav-link" data-scroll-target="#convert-plans-into-real-code"><span class="toc-section-number">3.6</span>  Convert Plans Into Real Code</a></li>
+  <li><a href="#we-cant-assume-our-plans-will-work" id="toc-we-cant-assume-our-plans-will-work" class="nav-link" data-scroll-target="#we-cant-assume-our-plans-will-work"><span class="toc-section-number">3.7</span>  We Can’t Assume Our Plans Will Work</a></li>
+  <li><a href="#lets-automatically-check-if-our-plans-worked" id="toc-lets-automatically-check-if-our-plans-worked" class="nav-link" data-scroll-target="#lets-automatically-check-if-our-plans-worked"><span class="toc-section-number">3.8</span>  Let’s Automatically Check If Our Plans Worked</a></li>
+  <li><a href="#making-the-results-of-our-automatic-tests-visible" id="toc-making-the-results-of-our-automatic-tests-visible" class="nav-link" data-scroll-target="#making-the-results-of-our-automatic-tests-visible"><span class="toc-section-number">3.9</span>  Making The Results of Our Automatic Tests Visible</a></li>
+  <li><a href="#we-will-never-have-100-converage-with-automatic-tests" id="toc-we-will-never-have-100-converage-with-automatic-tests" class="nav-link" data-scroll-target="#we-will-never-have-100-converage-with-automatic-tests"><span class="toc-section-number">3.10</span>  We Will Never Have 100% Converage with Automatic Tests</a></li>
+  <li><a href="#finish-this-upgraded-pipeline" id="toc-finish-this-upgraded-pipeline" class="nav-link" data-scroll-target="#finish-this-upgraded-pipeline"><span class="toc-section-number">3.11</span>  Finish This Upgraded Pipeline</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Add an Automated Test</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="trust-me" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="trust-me"><span class="header-section-number">3.1</span> Trust Me?</h2>
+<p>Let’s run back through our pipeline and make some further improvements. Yes, it will involve learning what an automated test is and why you’ll learn to love them!</p>
+</section>
+<section id="load-packages" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">3.2</span> Load Packages</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pointblank)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-pre-processing-redux" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="add-pre-processing-redux"><span class="header-section-number">3.3</span> Add Pre-Processing, Redux</h2>
+<p>Let’s start by using the <code>{janitor}</code> package to clean up our column names. This will make it easier to work with the data moving forward.</p>
+<p>You’ll notice I had to call the <code>clean_names()</code> function many times in the previous chapter, which we want to avoid. Ideally we copy and paste as little as possible while writing code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>penguins_improved_redux <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="st">"data_from_gsheets/raw/palmer_penguins_improved.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stop-coding" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="stop-coding"><span class="header-section-number">3.4</span> Stop Coding</h2>
+<p>A key part to improving our code often involves taking a step back. Rather than charging ahead we can figure out what we want to accomplish and the steps we need to get there.</p>
+</section>
+<section id="make-a-plan" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="make-a-plan"><span class="header-section-number">3.5</span> Make a Plan</h2>
+<p>A common practice in software development is to write down a sketch of the data we have and a sketch of the data we want. Then, we chart out the individual steps to get us from where we are to where we want to be.</p>
+<p>This approach can help us build stronger intuitions about how to engineer and validate data. Using this strategy also prevents us from getting lost in a maze of code we don’t understand why we wrote.</p>
+<p>There are plenty of ways to make this plan happen. You can write it in a physical notebook, a Google Doc, etc. I tend to like writing pseudocode with comments like my solutions already magically exist. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I have data with duplicate IDs in it right now</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>non_duplicated_data <span class="ot">&lt;-</span> duplicated_data <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># I want to remove those duplicate IDs only leaving the most recent row but retain all information</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">disapper_duplicates</span>(<span class="at">most_recent =</span> <span class="cn">TRUE</span>, <span class="at">keep_everything =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># And then have data with no duplicates, all other info, and only the most recent of each ID</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in disapper_duplicates(., most_recent = TRUE, keep_everything = TRUE): could not find function "disapper_duplicates"</code></pre>
+</div>
+</div>
+<p><code>disappear_duplicates()</code> isn’t a real function, and now that I’ve thought about what I’m looking to accomplish finding a real function will be easier.</p>
+<section id="our-goal-in-data-engineering-is-tidy-accurate-data" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="our-goal-in-data-engineering-is-tidy-accurate-data"><span class="header-section-number">3.5.1</span> Our Goal in Data Engineering is Tidy, Accurate Data</h3>
+<p>When we’re making a plan while data engineering, we know we want to end up with tidy, accurate data. Our engineering and validation efforts are steps toward this ultimate goal.</p>
+</section>
+<section id="the-definition-of-tidy-depends-on-context" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="the-definition-of-tidy-depends-on-context"><span class="header-section-number">3.5.2</span> The Definition of Tidy Depends on Context</h3>
+<ul>
+<li>Tidy data is <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html" target="_blank">data where</a>:
+<ul>
+<li>Every column is a variable</li>
+<li>Every row is an observation</li>
+<li>Every cell is a single value</li>
+</ul></li>
+</ul>
+<p>However, what counts as a “single value” or “observation” can vary based on context. For example, if we want data with every measurement of our penguins our defintion of “a single value” will be different than if we want data with only the most recent measurement from each penguin.</p>
+<p>Code and automated pipelines can’t make these decisions for us. These are people problems masquerading as coding problems.</p>
+</section>
+<section id="the-definiton-of-accurate-depends-on-context" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="the-definiton-of-accurate-depends-on-context"><span class="header-section-number">3.5.3</span> The Definiton of Accurate Depends on Context</h3>
+<p>This is even more true when it comes to an organization’s definition of “accurate.” Almost no real-world dataset will ever achieve 100% accuracy in its data, so we have to prioritize. How much do we care if there are duplicate IDs in the data? Impossible values in our key outcomes?</p>
+<p>Behaviors betray priorities here. We implicitly say we don’t care much about potential errors if we don’t bother to check. Or at least we don’t care as much about those errors as other organizational priorities. That decision might be right or wrong, but either way it’s a human process that no amount of code can solve directly.</p>
+</section>
+</section>
+<section id="convert-plans-into-real-code" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="convert-plans-into-real-code"><span class="header-section-number">3.6</span> Convert Plans Into Real Code</h2>
+<p>Let’s say our definition of tidy data in this case is only one measurement per penguin. We also know<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> that we only want the last measurement collected from each penguin. We already wrote pseudocode with comments up above to handle this situation. We can express those plans with actual code here:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins_unique_sample <span class="ot">&lt;-</span> penguins_improved_redux <span class="sc">%&gt;%</span> <span class="co"># Data with duplicates</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(date_egg)) <span class="sc">%&gt;%</span> <span class="co"># Order the dataset with most recent measurements first</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(individual_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="co"># Keep only distinct individual_id rows and keep all the other columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="we-cant-assume-our-plans-will-work" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="we-cant-assume-our-plans-will-work"><span class="header-section-number">3.7</span> We Can’t Assume Our Plans Will Work</h2>
+<p>If the above code is executed well we should get what we want, and we should check behind ourselves!</p>
+<p>We tend to do this in an ad-hoc way in our code. The most common way is to see if the code runs at all. If it doesn’t we can safely assume we failed. The next most common is just printing out output and seeing if it looks ok.</p>
+<p>These are understandable approaches, and we can do better</p>
+</section>
+<section id="lets-automatically-check-if-our-plans-worked" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="lets-automatically-check-if-our-plans-worked"><span class="header-section-number">3.8</span> Let’s Automatically Check If Our Plans Worked</h2>
+<p>Luckily the the <code>{pointblank}</code> package is way more than the <code>scan_data()</code> function we used in the last chapter. It’s an entire ecosystem for checking our data more thoroughly, creating reports, and even emailing those reports automatically.</p>
+<p>You can find more info at the package’s <a href="https://rstudio.github.io/pointblank/">docs</a> or this <a href="https://www.youtube.com/watch?v=hxkTbnIXI-o">Youtube video with demonstrations</a>. We can demonstrate its functionality here by checking to make sure each <code>individual_id</code> in our penguins data is unique now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a pointblank `agent` object, with the</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># penguins_unique_sample as the target table. Use one validation</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># functions, then, `interrogate()`. The agent will</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then have some useful intel.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>penguins_distinct_agent <span class="ot">&lt;-</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  penguins_unique_sample <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">create_agent</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Check for unique penguin ids"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">actions =</span> <span class="fu">action_levels</span>(<span class="at">warn_at =</span> <span class="dv">1</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rows_distinct</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vars</span>(individual_id)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">interrogate</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="making-the-results-of-our-automatic-tests-visible" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="making-the-results-of-our-automatic-tests-visible"><span class="header-section-number">3.9</span> Making The Results of Our Automatic Tests Visible</h2>
+<p>We want to be able to figure out if our tests passed or failed easily. If something’s wrong with the data, we want our process to “fail” loudly and in a way we can see! That loud “failure” is a success in data engineering because we’ve prevented contaminiated data from infecting the rest of our process.</p>
+<p>Luckily <code>{pointblank}</code> gives us easy to understand reports when we call an <code>agent</code> object like <code>penguins_distinct_agent</code>. The “warning” circle isn’t filled in under “W” which means our automated test has passed!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>penguins_distinct_agent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="pb_agent" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://unpkg.com/balloon-css/balloon.min.css");
+#pb_agent table {
+  font-family: 'IBM Plex Sans', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#pb_agent thead, #pb_agent tbody, #pb_agent tfoot, #pb_agent tr, #pb_agent td, #pb_agent th {
+  border-style: none;
+}
+
+#pb_agent p {
+  margin: 0;
+  padding: 0;
+}
+
+#pb_agent .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 90%;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pb_agent .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#pb_agent .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pb_agent .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pb_agent .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pb_agent .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pb_agent .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pb_agent .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pb_agent .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pb_agent .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pb_agent .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pb_agent .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pb_agent .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#pb_agent .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#pb_agent .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pb_agent .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pb_agent .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pb_agent .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pb_agent .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pb_agent .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#pb_agent .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#pb_agent .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#pb_agent .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pb_agent .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#pb_agent .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#pb_agent .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pb_agent .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pb_agent .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pb_agent .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pb_agent .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pb_agent .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pb_agent .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pb_agent .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pb_agent .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pb_agent .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pb_agent .gt_left {
+  text-align: left;
+}
+
+#pb_agent .gt_center {
+  text-align: center;
+}
+
+#pb_agent .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pb_agent .gt_font_normal {
+  font-weight: normal;
+}
+
+#pb_agent .gt_font_bold {
+  font-weight: bold;
+}
+
+#pb_agent .gt_font_italic {
+  font-style: italic;
+}
+
+#pb_agent .gt_super {
+  font-size: 65%;
+}
+
+#pb_agent .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#pb_agent .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#pb_agent .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#pb_agent .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#pb_agent .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pb_agent .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pb_agent .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#pb_agent {
+  -webkit-font-smoothing: antialiased;
+}
+
+#pb_agent .gt_row {
+  overflow: visible;
+}
+
+#pb_agent .gt_sourcenote {
+  height: 35px;
+  padding: 0;
+}
+
+#pb_agent code {
+  font-family: 'IBM Plex Mono', monospace, courier;
+  background-color: transparent;
+  padding: 0;
+}
+</style>
+<table class="gt_table" style="table-layout: fixed;; width: 0px" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <colgroup>
+    <col style="width:6px;">
+    <col style="width:35px;">
+    <col style="width:190px;">
+    <col style="width:120px;">
+    <col style="width:120px;">
+    <col style="width:50px;">
+    <col style="width:50px;">
+    <col style="width:50px;">
+    <col style="width:50px;">
+    <col style="width:50px;">
+    <col style="width:30px;">
+    <col style="width:30px;">
+    <col style="width:30px;">
+    <col style="width:65px;">
+  </colgroup>
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="14" class="gt_heading gt_title gt_font_normal" style="color: #444444; font-size: 28px; text-align: left; font-weight: 500;">Pointblank Validation</td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">Check for unique penguin ids</span><p></p>
+<div style="height:25px;"><span style="background-color: #F1D35A;color: #222222;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin: 5px 1px 5px 4px;font-weight: bold;border: solid 1px #F1D35A;padding: 2px 10px 2px 10px;font-size: smaller;">tibble</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
+<span style="background-color:none;color:#333333;padding:0.5em 0.5em;position:inherit;margin:5px 0px 5px -4px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">1</span>
+<span style="background-color:#D0182F;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 1px;font-weight:bold;border:solid 1px #D0182F;padding:2px 15px 2px 15px;font-size:smaller;">STOP</span>
+<span style="background-color:none;color:#333333;padding:0.5em 0.5em;position:inherit;margin:5px 0px 5px -4px;font-weight:bold;border:solid 1px #D0182F;padding:2px 15px 2px 15px;font-size:smaller;">—</span>
+<span style="background-color:#499FFE;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 1px;font-weight:bold;border:solid 1px #499FFE;padding:2px 15px 2px 15px;font-size:smaller;">NOTIFY</span>
+<span style="background-color:none;color:#333333;padding:0.5em 0.5em;position:inherit;margin:5px 0px 5px -4px;font-weight:bold;border:solid 1px #499FFE;padding:2px 15px 2px 15px;font-size:smaller;">—</span></div>
+</td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="STEP">STEP</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="COLUMNS">COLUMNS</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="VALUES">VALUES</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="TBL">TBL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="EVAL">EVAL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="UNITS">UNITS</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="PASS">PASS</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="FAIL">FAIL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="W">W</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="S">S</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="N">N</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #666666; font-weight: bold;" scope="col" id="EXT">EXT</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="status_color" class="gt_row gt_left" style="background-color: #4CA64C; height: 40px"></td>
+<td headers="i" class="gt_row gt_right" style="color: #666666; font-size: 13px; font-weight: bold; height: 40px">1</td>
+<td headers="type" class="gt_row gt_left" style="height: 40px"><div class="gt_from_md"><div aria-label="Expect entirely distinct rows across `individual_id`. " data-balloon-pos="right" style="width:fit-content;">
+  <div style="margin:0;padding:0;display:inline-block;height:30px;vertical-align:middle;"><!--?xml version="1.0" encoding="UTF-8"?--><svg width="30px" height="30px" viewbox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">    <title>rows_distinct</title>    <g id="All-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <g id="rows_distinct" transform="translate(0.000000, 0.482759)">            <path d="M56.712234,1 C59.1975153,1 61.4475153,2.00735931 63.076195,3.63603897 C64.7048747,5.26471863 65.712234,7.51471863 65.712234,10 L65.712234,10 L65.712234,65 L10.712234,65 C8.22695259,65 5.97695259,63.9926407 4.34827294,62.363961 C2.71959328,60.7352814 1.71223397,58.4852814 1.71223397,56 L1.71223397,56 L1.71223397,10 C1.71223397,7.51471863 2.71959328,5.26471863 4.34827294,3.63603897 C5.97695259,2.00735931 8.22695259,1 10.712234,1 L10.712234,1 Z" id="rectangle" stroke="#000000" stroke-width="2" fill="#FFFFFF"></path>            <g id="no_gemini" transform="translate(17.000000, 13.000000)">                <path d="M3.66705619,6.62107508 C3.12510104,6.64066386 2.67455974,7.04767444 2.60273432,7.58527682 C2.52873228,8.1228792 2.85303526,8.6343627 3.37104848,8.79760239 C4.40489909,9.15455286 6.70113553,9.87063021 9.86580595,10.364702 L9.86580595,30.7369976 C6.65978137,31.2332458 4.37225104,31.964559 3.37104848,32.3215095 C2.78991555,32.5282797 2.48520173,33.1681784 2.69197196,33.7493114 C2.8987422,34.3304443 3.53864094,34.6351581 4.11977387,34.4283879 C5.54975217,33.9190808 10.2031678,32.4608072 16.5172734,32.4608072 C22.7943781,32.4608072 27.5500901,33.8907855 29.0540706,34.4109757 C29.6352036,34.6133926 30.2707495,34.304326 30.4731664,33.7231931 C30.6755833,33.1420601 30.3665167,32.5065142 29.7853838,32.3040973 C28.7493568,31.9449704 26.4313554,31.2441283 23.2383897,30.7544098 L23.2383897,10.3821143 C26.4444143,9.88804243 28.745004,9.16108259 29.7679716,8.79760239 C30.3491045,8.59083215 30.6538184,7.95093341 30.4470481,7.36980048 C30.2402779,6.78866755 29.6003791,6.48395373 29.0192462,6.69072396 C27.5587963,7.20873774 22.9162637,8.65830464 16.6391589,8.65830464 C10.3707603,8.65830464 5.61287188,7.21309051 4.10236166,6.69072396 C3.96306391,6.6384873 3.81506005,6.61454548 3.66705619,6.62107508 Z M12.0945699,10.6432975 C13.4940771,10.789125 15.0198226,10.8870686 16.6391589,10.8870686 C18.1997289,10.8870686 19.6623552,10.7978311 21.0096257,10.6607098 L21.0096257,30.4584021 C19.623178,30.316928 18.1191975,30.2320433 16.5172734,30.2320433 C14.9327615,30.2320433 13.4570763,30.3191044 12.0945699,30.4584021 L12.0945699,10.6432975 Z" id="gemini" stroke="#000000" stroke-width="2" fill="#000000" fill-rule="nonzero"></path>                <path d="M16.6605354,-5.05929499 C16.9366778,-5.05929499 17.1605354,-4.83543737 17.1605354,-4.55929499 L17.1605354,44.5687509 C17.1605354,44.8448933 16.9366778,45.0687509 16.6605354,45.0687509 C16.384393,45.0687509 16.1605354,44.8448933 16.1605354,44.5687509 L16.1605354,-4.55929499 C16.1605354,-4.83543737 16.384393,-5.05929499 16.6605354,-5.05929499 Z" id="line_black" fill="#000000" transform="translate(16.660535, 20.004728) rotate(-320.000000) translate(-16.660535, -20.004728) "></path>                <polygon id="line_white" fill="#FFFFFF" transform="translate(18.560032, 19.158031) rotate(-320.000000) translate(-18.560032, -19.158031) " points="18.0600316 -4.45366735 19.0600316 -4.45366735 19.0600316 42.7697299 18.0600316 42.7697299"></polygon>            </g>        </g>    </g></svg></div>
+  <code style="font-size:11px;">&nbsp;rows_distinct()</code>
+</div>
+</div></td>
+<td headers="columns" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px"><div class="gt_from_md"><div aria-label="individual_id" data-balloon-pos="left">
+  <p style="margin-top:0;margin-bottom:0;font-size:11px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:2em;">
+    <code><span style="color:purple;">▮</span>individual_id</code>
+  </p>
+</div>
+</div></td>
+<td headers="values" class="gt_row gt_left" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; height: 40px">—</td>
+<td headers="precon" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md"><p><span style="background:transparent;padding:0;color:#333333;vertical-align:middle;font-size:10px;border:none;border-radius:4px;" aria-label="No modifications of the table." data-balloon-pos="left"><svg width="25px" height="25px" viewbox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="vertical-align: middle;">    <g id="unchanged" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <g id="unchanged" transform="translate(0.500000, 0.570147)">            <rect id="Rectangle" x="0.125132506" y="0" width="23.749735" height="23.7894737"></rect>            <path d="M5.80375046,8.18194736 C3.77191832,8.18194736 2.11875046,9.83495328 2.11875046,11.8669474 C2.11875046,13.8989414 3.77191832,15.5519474 5.80375046,15.5519474 C7.8355826,15.5519474 9.48875046,13.8989414 9.48875046,11.8669474 C9.48875046,9.83495328 7.83552863,8.18194736 5.80375046,8.18194736 Z M5.80375046,14.814915 C4.17821997,14.814915 2.85578285,13.4924778 2.85578285,11.8669474 C2.85578285,10.2414169 4.17821997,8.91897975 5.80375046,8.91897975 C7.42928095,8.91897975 8.75171807,10.2414169 8.75171807,11.8669474 C8.75171807,13.4924778 7.42928095,14.814915 5.80375046,14.814915 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>            <path d="M13.9638189,8.699335 C13.9364621,8.70430925 13.9091059,8.71176968 13.8842359,8.71923074 C13.7822704,8.73663967 13.6877654,8.77643115 13.6056956,8.83860518 L10.2433156,11.3852598 C10.0766886,11.5046343 9.97720993,11.6986181 9.97720993,11.9025491 C9.97720993,12.1064807 10.0766886,12.3004639 10.2433156,12.4198383 L13.6056956,14.966493 C13.891697,15.1803725 14.2970729,15.1231721 14.5109517,14.8371707 C14.7248313,14.5511692 14.6676309,14.145794 14.3816294,13.9319145 L12.5313257,12.5392127 L21.8812495,12.5392127 L21.8812495,11.2658854 L12.5313257,11.2658854 L14.3816294,9.87318364 C14.6377872,9.71650453 14.7497006,9.40066014 14.6477351,9.11714553 C14.5482564,8.83363156 14.262255,8.65954352 13.9638189,8.699335 Z" id="arrow" fill="#000000" transform="translate(15.929230, 11.894737) rotate(-180.000000) translate(-15.929230, -11.894737) "></path>        </g>    </g></svg></span></p>
+</div></td>
+<td headers="eval_sym" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md"><p><span style="background:transparent;padding:5px;color:#4CA64C;vertical-align:middle;font-size:15px;border:none;" aria-label="No evaluation issues." data-balloon-pos="left">✓</span></p>
+</div></td>
+<td headers="units" class="gt_row gt_right" style="font-size: 11px; height: 40px"><code>190</code></td>
+<td headers="n_pass" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px"><code>190</code><br><code>1.00</code></td>
+<td headers="n_fail" class="gt_row gt_right" style="border-left-width: 1px; border-left-style: dashed; border-left-color: #E5E5E5; font-size: 11px; height: 40px"><code>0</code><br><code>0.00</code></td>
+<td headers="W" class="gt_row gt_center" style="border-left-width: 1px; border-left-style: solid; border-left-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md"><p><span style="color: #E5AB00;">○</span></p>
+</div></td>
+<td headers="S" class="gt_row gt_center" style="background-color: #FCFCFC; height: 40px"><div class="gt_from_md"><p>—</p>
+</div></td>
+<td headers="N" class="gt_row gt_center" style="border-right-width: 1px; border-right-style: solid; border-right-color: #D3D3D3; background-color: #FCFCFC; height: 40px"><div class="gt_from_md"><p>—</p>
+</div></td>
+<td headers="extract" class="gt_row gt_center" style="height: 40px"><div class="gt_from_md"><p>—</p>
+</div></td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="14"><span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin-left:10px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;padding:2px 10px 2px 10px;">2023-09-26 14:55:23 MDT</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;margin:5px 1px 5px 0;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">&lt; 1 s</span>
+<span style="background-color:#FFF;color:#444;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 1px 5px -1px;border:solid 1px #999999;font-variant-numeric:tabular-nums;border-radius:0;padding:2px 10px 2px 10px;">2023-09-26 14:55:23 MDT</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="we-will-never-have-100-converage-with-automatic-tests" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="we-will-never-have-100-converage-with-automatic-tests"><span class="header-section-number">3.10</span> We Will Never Have 100% Converage with Automatic Tests</h2>
+<p>Which tests we create are human, scientific issues that we enshrine in code. For example, I didn’t include any kind of check here to see if we for sure got the most recent sample from each penguin.</p>
+<p>Since this is for demonstration purposes, that’s fine. If it’s crucial for our research questions of interest that only the most recent sample be used, we should build a check for that too.</p>
+<p>Every decision we make is a trade-off. So while we won’t get 100% coverage with these automatic tests, we should prioritize testing things that would catastrophically impact our data.</p>
+</section>
+<section id="finish-this-upgraded-pipeline" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="finish-this-upgraded-pipeline"><span class="header-section-number">3.11</span> Finish This Upgraded Pipeline</h2>
+<p>We then write this processed data without duplicate IDs into a “processed/” folder to finish out our pipeline.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>output_path_processed <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data_from_gsheets/processed/palmer_penguins_improved.csv"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(penguins_unique_sample, output_path_processed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And let’s also write a version of the automated test report into another folder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>report_path_processed <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="fu">glue</span>(<span class="st">"reports/processed/{now()}_palmer_penguins_report.html"</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Commented out here so we don't create a new version of the report during every reload</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># export_report(penguins_distinct_agent, report_path_processed)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If all our end-users need is penguins data without duplicate IDs we’re set! And we even have a report that will automatically save when we run the script so we’ll know if we passed the data quality checks.</p>
+<p>And most organizations have far more than one dataset of interest. Let’s extend our pipeline to automatically handle multiple datasets.</p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Read: Have made up for demonstration purposes<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01_initial_pipeline_upgrades.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Initial Pipeline Upgrades</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03_handle_multiple_datasets.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Handle Multiple Datasets</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

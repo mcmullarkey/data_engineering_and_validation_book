@@ -1,0 +1,69 @@
+---
+title: "Building Our First Pipeline"
+execute: 
+  warning: false
+  message: false
+---
+
+## We'll Have a Minimal Data Pipeline By the End of This Chapter
+
+A data pipeline has an unfortunate number of meanings. In this book we're talking about a repeatable, scalable process for ingesting data so that end-users can use it. Let's jump right into the building our first pipeline.
+
+## Load Packages
+
+```{r}
+
+library(googlesheets4)
+library(readr)
+library(here)
+
+```
+
+## What You Would Do With a Local File
+
+If we're doing what small organizations often do, we download a `.csv` file from somewhere, stick it in the same folder as our code, and run `read_csv()` with the vague hope the data will read in correctly. 
+
+```{r}
+
+penguins_local <- read_csv("palmer_penguins.csv")
+
+```
+
+The aim of a data pipeline is to remove the manual steps like downloading the file and make the hope our data is correct more grounded in evidence.
+
+## Starting a Reproducible Pipeline
+
+"Reading a remote file" can sound scary, but R can help make it as straightforward as reading in a local file. Using the `googlesheets4` package, we'll read in a remote file that contains the raw [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/){target="_blank"} data.
+
+```{r}
+
+# Since this Google Sheet is public to anyone with the link we don't need
+# to authenticate
+
+gs4_deauth()
+
+# Get the URL of our Google Sheet
+
+url <- "https://docs.google.com/spreadsheets/d/1v0lG-4arxF_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw/edit?usp=sharing"
+
+# Read in the penguins data using the googlesheets4 package
+
+penguins_remote <- read_sheet(url)
+
+```
+
+And we've kicked off our pipeline! We'll focus on reading remotely from Google Sheets in this textbook since everyone will be able to access it for learning purposes. See this footnote for R packages that can help you read in your data from other sources.^[The [qualtRics package](https://docs.ropensci.org/qualtRics/){target="_blank"} for Qualtrics, [svmkR](http://soubhikbarari.com/svmkR/articles/svmkR.html){target="_blank"} for Survey Monkey, [rtypeform](https://cran.r-project.org/web/packages/rtypeform/readme/README.html){target="_blank"} for Typeform]
+
+## Only One More Step to Complete a Minimal, Reproducible Pipeline
+
+The final step of our minimal pipeline is writing the data to a location where end-users can access it. In this case we'll write the raw Palmer Penguins data to the "raw" folder in our R Project.^[If you're not already I'd highly recommend organizing your R infrastrcture using Projects, see [this resource](https://r4ds.hadley.nz/workflow-scripts.html#projects){target="_blank"} on how to get started] We use the `here` package to make sure we don't lose track of our files.^[Also note that we have to create the "raw/" folder within our project before writing this code, or else we'll get an ambiguous error]
+
+```{r}
+
+output_path <- here::here("data_from_gsheets/raw/palmer_penguins.csv")
+
+write_csv(penguins_remote, output_path)
+
+```
+
+And our first, minimal data pipeline is complete! We've created a process where we could open an R Project, run a script, and have an updated version of our data available to end-users. We're just getting started, and in the next chapter we'll make some much needed upgrades to this minimal pipeline.

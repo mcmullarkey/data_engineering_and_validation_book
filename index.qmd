@@ -1,0 +1,67 @@
+# Preface {.unnumbered}
+
+## Why Does This Book Exist?
+
+[Data engineering and validation](https://blog.pragmaticengineer.com/what-is-data-engineering/){target="_blank"} is the practice of systematically putting together
+accurate, well-structured data. 
+
+Data engineering and validation is a [multi-billion dollar industry](https://finance.yahoo.com/news/big-data-engineering-services-market-125600472.html){target="_blank"}. 
+
+Data engineering and validation is absent at many smaller organizations.^[Or at least a systematic, repeatable process is absent] 
+
+At first glance, these statements might seem contradictory. 
+If the processes that help ensure accurate, usable data exude value then wouldn't
+*all* organizations would jump to implement them?
+
+However, the value of data engineering and validation is precisely what can put
+it out of reach for smaller organizations. Valuable tools are expensive ones,
+and common data engineering and validation tools are often outside smaller
+organizations' budgets.^[Sure, there are plenty of open
+source tools that enable data engineering + validation... and the most 
+user-friendly ways to implement those tools are often in pay-to-use 
+environments.]
+
+Know-how of multiple indsutry-standard programming languages^[Like Python and SQL] and technologies^[Like Docker]
+are possible to find within smaller organizations. And those skills are valuable
+enough that retaining people with those skills is far from a guarantee.
+
+Beyond potentially prohibitive costs for tools and talent, most data engineering
+and validation systems necessary for larger-scale industry applications are 
+overkill for smaller organizations. Many publicly available resources are great 
+if your organization is processing millions of rows of data and over-engineering
+if your organization is processing thousands of rows.^[Or even less!]
+
+This resource gap is part of what drives the lack of systematic, repeatable
+processes for creating accurate datasets at smaller organizations. This book
+aims to help fill that gap.
+
+## What Will I Get Out of This Book?
+
+We'll work on data engineering and validation from the ground up using R, an open-source 
+language that's familiar to many people in smaller organizations. You won't have to touch any other programming languages or technologies to implement everything in this book.
+
+We'll start with how to create a pipeline using one remote dataset,^[Instead of having to download a 
+file locally] learn how to debug our new pipeline, add automated tests for data 
+quality, extend the pipeline to multiple datasets, and perform certain 
+automated tests on some of those datasets but not others.
+
+This book will give you thte building blocks to create a systematic, repeatable, and scalable,^[At least to ~hundreds of thousands of rows] pipeline for engineering accurate data within the R ecosystem.
+
+## Who is This Book For?
+
+This book is primarily geared toward people working at smaller organizations^[Think acaedmic labs, non-profits, local governments, etc.] with at least intermediate experience in R. 
+
+People interested in data engineering in general with a programming 
+background outside R might also appreciate the "from the ground up" approach.
+Other data engineering resources sometimes jump straight to a very high
+complexity level or assume a computer science background.^[This book does not assume a computer science background] If you're looking for an introduction to data engineering and validation at industry scale I'd recommend checking out the [Seattle Data Guy's Youtube Videos](https://www.youtube.com/@SeattleDataGuy/videos){target="_blank"}.
+
+I don't want to gatekeep anyone, and this book is unlikely to be a good way to acquaint yourself with R.
+If you're looking for an introductory experience for the R programming language,
+I'd recommend [Applied Data Skills](https://psyteachr.github.io/ads-v2/){target="_blank"} by Emily Nordmann and Lisa DeBruine.
+
+## Who Wrote This Book?
+
+I'm [Michael Mullarkey](https://mcmullarkey.github.io/){target="_blank"}, a clinical psychology PhD who solves problems where data science and product overlap.
+
+I've also put together *a lot* of data engineering and validation pipelines for smaller organizations. I'm a former academic who has worked multiple types of data jobs in industry. I enjoy helping my cat see birds in the window, watching horror movies with my spouse, and bringing a social science lens to software engineering.

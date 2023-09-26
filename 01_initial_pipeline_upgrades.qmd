@@ -1,0 +1,200 @@
+---
+title: "Initial Pipeline Upgrades"
+execute: 
+  warning: false
+  message: false
+---
+
+## Load Packages
+
+```{r}
+
+library(googlesheets4)
+library(tidyverse)
+library(here)
+library(janitor)
+library(pointblank)
+
+```
+
+## Improve How We Call The Sheet
+
+Improving our pipeline means looking for ways, big and small, to improve our code.
+
+We get an opportunity right off the bat! Rather than copy/pasting the entire URL we can just take the sheet ID of of our Google Sheet. Getting the same information with less keystrokes and opportunity for error is always a win.
+
+```{r}
+
+# Since this Google Sheet is public to anyone with the link we don't need
+# to authenticate
+
+gs4_deauth()
+
+# Get the ID of our Google Sheet
+
+sheet_id <- "1v0lG-4arxF_zCCpfoUzCydwzaea7QqWTTQzTr8Dompw"
+
+# Read in the penguins data using the googlesheets4 package
+
+penguins_remote_improved <- read_sheet(sheet_id)
+
+```
+
+## Still Read in Raw Data
+
+We'll continue our pipeline as in the last chapter by writing our just ingested data to the "raw/" folder in our R Project.
+
+```{r}
+
+output_path_improved <- here::here("data_from_gsheets/raw/palmer_penguins_improved.csv")
+
+write_csv(penguins_remote_improved, output_path_improved)
+
+```
+
+## Add Some Pre-Processing
+
+Let's start by using the `{janitor}` package to clean up our column names. This will make it easier to work with the data moving forward. 
+
+A big part of data engineering is naming things consistently and choosing how to format your variables. Naming things sounds simple [but is notoriously difficult](https://www.mediawiki.org/wiki/Naming_things){target="_blank"}. 
+
+Keeping names simple, avoiding ambiguity where possible, and using a consistent structure for names can all help. The [`{janitor}` package](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html){target="_blank"} helps us enforce a consistent structure for our variables in one line of code. 
+
+```{r}
+
+penguins_improved_initial <- 
+  read_csv("data_from_gsheets/raw/palmer_penguins_improved.csv") %>% 
+  clean_names()
+
+```
+In the raw Palmer Penguins data the variable names' structure is all over the place. "studyName" uses camel case, there's inconsistent capitalization across names, special characters like "(" that can cause issues on some systems, and there are often spaces.^[Which are annoying to remember and computers hate]
+
+```{r}
+
+penguins_remote_improved %>% 
+  names()
+
+```
+After running `clean_names()` we get consistent "snake case"^[Where each word is separated by an "_"] separation for words, consistent lower-case for all characters, no special characters like "(" and no spaces. This standardization makes it easier to remember, type, and reuse these variable names. Enforce a standard like this for your data and your end-users will thank you.
+
+```{r}
+
+penguins_improved_initial %>% 
+  names()
+
+```
+## Scanning Our Data for Problems
+
+Now that we've made our variable names easier to work with let's dive into the actual data. The `scan_data()` function from the `{pointblank}` package in R makes it easy to get a high level overview of our data. I want the ten-thousand foot view first, so let's look at just the overview of our data frame.
+
+```{r}
+
+scan_data(penguins_improved_initial, sections = "O")
+
+```
+
+
+## Where Did Our Data Go??
+
+Over 40% of our data is missing, which seems like a bad sign. The `scan_data()` function can help us see where this data is missing quickly with a handy visualization.
+
+```{r}
+
+scan_data(penguins_improved_initial, sections = "M")
+
+```
+
+Okay, so we've already narrowed our problem down to a certain set of columns where the data seems to be almost entirely missing. Maybe it's on purpose and we're fine?
+
+```{r}
+
+penguins_remote_improved %>% 
+  clean_names() %>% 
+  select(c(culmen_length_mm:body_mass_g,delta_15_n_o_oo,delta_13_c_o_oo))
+
+```
+
+Not quite. Most of the "missing" data are hiding in list-columns, a column type in R that can contain a whole list within each row. So the data isn't so much "missing" as "inaccessible in its current format." 
+
+This list-column property can be useful in certain cases, but it wasn't what we were going for here. What do we do now?
+
+## Data Engineering is About Tradeoffs + Procedures
+
+One rule we've likely all heard is to never touch "raw" data. However, in a data engineering role the "raw" data can be completely unusable, nonsensical, or worse. 
+
+Having a reproducible pipeline with automated checks for data quality can help, and there's [still a human^[or ideally a set of humans] making these decisions](https://www.thenewatlantis.com/publications/why-data-is-never-raw){type="_blank"}.
+
+Therefore, while it's good practice to not edit "raw" data files once they're established we still want the "raw" data to contain the information we need. Let's figure out how to rescuse the information out of those list-columns.
+
+Since I happen to know these values are "nested" in lists maybe we can access them by using the `unnest()` function. Let's try that on the offending columns.
+
+```{r}
+#| error: true
+
+penguins_remote_improved %>%
+  clean_names() %>%
+  unnest(c(culmen_length_mm:body_mass_g,delta_15_n_o_oo,delta_13_c_o_oo))
+
+```
+
+## Are We Doomed?
+
+Nope! Errors are an inevitable part of improving a pipeline. Also, if you're not finding anything weird with your pipeline I'd be more nervous than if you find errors like this one. 
+
+In this case, we see there are values of multiple types^[type double and type character] in a column that can't be combined. I have a hunch based on experience, which I can investigate further by looking at the "sex" column.
+
+```{r}
+
+penguins_remote_improved %>% 
+  clean_names() %>% 
+  count(sex)
+
+```
+
+Aha! It looks like the value "NA" is getting read as a character variable rather than a missing value. This could be what's going on with our initial read using `read_sheet()` Let's investigate.
+
+```{r}
+
+penguins_na_fix <- read_sheet(sheet_id, na = "NA")
+
+penguins_na_fix %>% 
+  clean_names() %>% 
+  select(c(culmen_length_mm:body_mass_g,delta_15_n_o_oo,delta_13_c_o_oo))
+
+```
+
+Fantastic, the information from these columns seems to be available to us now. Let's check the overall dataframe using scan data again, this time with the overview + missingness plot generated simultaneously.
+
+```{r}
+
+scan_data(penguins_na_fix, sections = "OM")
+
+```
+
+Down to ~6% missing data! Most of that missingness seems concentrated in the "comments" column, which we can take a quick peek at.
+
+```{r}
+
+penguins_na_fix %>% 
+  clean_names() %>% 
+  select(comments)
+
+```
+
+Based on our investigation and the Palmer Penguins documentation this data is looking much more like the data we'd expect.
+
+## An Already Improved Pipeline
+
+We have a much better pipeline than we did just a chapter ago! 
+
+How did I know about the `na` argument inside of `read_sheet()`? I looked at the documentation! Also, as you develop better instincts you can press Ctrl + Spacebar to see what parameters like `na` are available inside of a function like `read_sheet()`.
+
+Let's read this version with our `NA` fix into the folder so we can continue to upgrade our pipeline. We're going to overwrite the previous, non-useful version of the file. However, we need to be careful when building pipelines that we only overwrite files when we mean to!
+
+```{r}
+
+output_path_nafix <- here::here("data_from_gsheets/raw/palmer_penguins_improved.csv")
+
+write_csv(penguins_na_fix, output_path_nafix)
+
+```

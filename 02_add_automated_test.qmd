@@ -1,0 +1,182 @@
+---
+title: "Add an Automated Test"
+execute: 
+  warning: false
+  message: false
+---
+
+## Trust Me?
+
+Let's run back through our pipeline and make some further improvements. Yes, it will involve learning what an automated test is and why you'll learn to love them!
+
+## Load Packages
+
+```{r}
+
+library(googlesheets4)
+library(tidyverse)
+library(here)
+library(janitor)
+library(pointblank)
+library(lubridate)
+library(glue)
+
+```
+
+## Add Pre-Processing, Redux
+
+Let's start by using the `{janitor}` package to clean up our column names. This will make it easier to work with the data moving forward. 
+
+You'll notice I had to call the `clean_names()` function many times in the previous chapter, which we want to avoid. Ideally we copy and paste as little as possible while writing code.
+
+```{r}
+
+penguins_improved_redux <- 
+  read_csv("data_from_gsheets/raw/palmer_penguins_improved.csv") %>% 
+  clean_names()
+
+```
+
+
+## Stop Coding
+
+A key part to improving our code often involves taking a step back. Rather than charging ahead we can figure out what we want to accomplish and the steps we need to get there.
+
+## Make a Plan
+
+A common practice in software development is to write down a sketch of the data we have and a sketch of the data we want. Then, we chart out the individual steps to get us from where we are to where we want to be.
+
+This approach can help us build stronger intuitions about how to engineer and validate data. Using this strategy also prevents us from getting lost in a maze of code we don't understand why we wrote.
+
+There are plenty of ways to make this plan happen. You can write it in a physical notebook, a Google Doc, etc. I tend to like writing pseudocode with comments like my solutions already magically exist. For example:
+
+```{r}
+#| error: true
+
+# I have data with duplicate IDs in it right now
+
+non_duplicated_data <- duplicated_data %>% 
+  # I want to remove those duplicate IDs only leaving the most recent row but retain all information
+  disapper_duplicates(most_recent = TRUE, keep_everything = TRUE) %>% 
+  # And then have data with no duplicates, all other info, and only the most recent of each ID
+  print()
+
+```
+
+`disappear_duplicates()` isn't a real function, and now that I've thought about what I'm looking to accomplish finding a real function will be easier.
+
+### Our Goal in Data Engineering is Tidy, Accurate Data
+
+When we're making a plan while data engineering, we know we want to end up with tidy, accurate data. Our engineering and validation efforts are steps toward this ultimate goal.
+
+### The Definition of Tidy Depends on Context
+
+* Tidy data is [data where](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html){target="_blank"}:
+  + Every column is a variable
+  + Every row is an observation
+  + Every cell is a single value
+
+However, what counts as a "single value" or "observation" can vary based on context. For example, if we want data with every measurement of our penguins our defintion of "a single value" will be different than if we want data with only the most recent measurement from each penguin.
+
+Code and automated pipelines can't make these decisions for us. These are people problems masquerading as coding problems.
+
+### The Definiton of Accurate Depends on Context
+
+This is even more true when it comes to an organization's definition of "accurate." Almost no real-world dataset will ever achieve 100% accuracy in its data, so we have to prioritize. How much do we care if there are duplicate IDs in the data? Impossible values in our key outcomes?
+
+Behaviors betray priorities here. We implicitly say we don't care much about potential errors if we don't bother to check. Or at least we don't care as much about those errors as other organizational priorities. That decision might be right or wrong, but either way it's a human process that no amount of code can solve directly.
+
+## Convert Plans Into Real Code
+
+Let's say our definition of tidy data in this case is only one measurement per penguin. We also know^[Read: Have made up for demonstration purposes] that we only want the last measurement collected from each penguin. We already wrote pseudocode with comments up above to handle this situation. We can express those plans with actual code here:
+
+```{r}
+
+penguins_unique_sample <- penguins_improved_redux %>% # Data with duplicates
+  arrange(desc(date_egg)) %>% # Order the dataset with most recent measurements first
+  distinct(individual_id, .keep_all = TRUE) # Keep only distinct individual_id rows and keep all the other columns
+
+```
+
+## We Can't Assume Our Plans Will Work
+
+If the above code is executed well we should get what we want, and we should check behind ourselves! 
+
+We tend to do this in an ad-hoc way in our code. The most common way is to see if the code runs at all. If it doesn't we can safely assume we failed. The next most common is just printing out output and seeing if it looks ok. 
+
+These are understandable approaches, and we can do better
+
+## Let's Automatically Check If Our Plans Worked
+
+Luckily the the `{pointblank}` package is way more than the `scan_data()` function we used in the last chapter. It's an entire ecosystem for checking our data more thoroughly, creating reports, and even emailing those reports automatically. 
+
+You can find more info at the package's [docs](https://rstudio.github.io/pointblank/) or this [Youtube video with demonstrations](https://www.youtube.com/watch?v=hxkTbnIXI-o). We can demonstrate its functionality here by checking to make sure each `individual_id` in our penguins data is unique now.
+
+```{r}
+
+# Create a pointblank `agent` object, with the
+# penguins_unique_sample as the target table. Use one validation
+# functions, then, `interrogate()`. The agent will
+# then have some useful intel.
+
+penguins_distinct_agent <- 
+  penguins_unique_sample %>%
+  create_agent(
+    label = "Check for unique penguin ids",
+    actions = action_levels(warn_at = 1)
+  ) %>%
+  rows_distinct(
+    vars(individual_id)
+  ) %>%
+  interrogate()
+
+```
+
+## Making The Results of Our Automatic Tests Visible
+
+We want to be able to figure out if our tests passed or failed easily. If something's wrong with the data, we want our process to "fail" loudly and in a way we can see! That loud "failure" is a success in data engineering because we've prevented contaminiated data from infecting the rest of our process. 
+
+Luckily `{pointblank}` gives us easy to understand reports when we call an `agent` object like `penguins_distinct_agent`. The "warning" circle isn't filled in under "W" which means our automated test has passed!
+
+```{r}
+
+penguins_distinct_agent
+
+```
+
+## We Will Never Have 100% Converage with Automatic Tests
+
+Which tests we create are human, scientific issues that we enshrine in code. For example, I didn't include any kind of check here to see if we for sure got the most recent sample from each penguin. 
+
+Since this is for demonstration purposes, that's fine. If it's crucial for our research questions of interest that only the most recent sample be used, we should build a check for that too. 
+
+Every decision we make is a trade-off. So while we won't get 100% coverage with these automatic tests, we should prioritize testing things that would catastrophically impact our data.
+
+
+## Finish This Upgraded Pipeline
+
+We then write this processed data without duplicate IDs into a "processed/" folder to finish out our pipeline.
+
+```{r}
+
+output_path_processed <- here::here("data_from_gsheets/processed/palmer_penguins_improved.csv")
+
+write_csv(penguins_unique_sample, output_path_processed)
+
+```
+
+And let's also write a version of the automated test report into another folder.
+
+```{r}
+
+report_path_processed <- here::here(glue("reports/processed/{now()}_palmer_penguins_report.html"))
+
+# Commented out here so we don't create a new version of the report during every reload
+# export_report(penguins_distinct_agent, report_path_processed)
+
+```
+
+
+If all our end-users need is penguins data without duplicate IDs we're set! And we even have a report that will automatically save when we run the script so we'll know if we passed the data quality checks. 
+
+And most organizations have far more than one dataset of interest. Let's extend our pipeline to automatically handle multiple datasets.

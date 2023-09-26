@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  page-navigation: true
+  title: "Data Engineering and Validation"
+  subtitle: "From the Ground Up"
+  author: "Michael Mullarkey"
+  date: today
+  sharing: [twitter, facebook, linkedin]
+  sidebar:
+    style: docked
+  chapters:
+    - index.qmd
+    - 00_building_first_pipeline.qmd
+    - 01_initial_pipeline_upgrades.qmd
+    - 02_add_automated_test.qmd
+    - 03_handle_multiple_datasets.qmd
+    - 04_different_checks_different_datasets.qmd
+
+format:
+  html:
+    theme: lux
+    toc: true
+    toc-location: left
+    page-layout: full
+  pdf:
+    documentclass: scrreprt
+
