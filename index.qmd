@@ -60,6 +60,8 @@ I don't want to gatekeep anyone, and this book is unlikely to be a good way to a
 If you're looking for an introductory experience for the R programming language,
 I'd recommend [Applied Data Skills](https://psyteachr.github.io/ads-v2/){target="_blank"} by Emily Nordmann and Lisa DeBruine.
 
+This website is and will always be free, licensed under the [CC BY-NC-ND 3.0 License](https://creativecommons.org/licenses/by-nc-nd/3.0/us/){target="_blank"}.
+
 ## Who Wrote This Book?
 
 I'm [Michael Mullarkey](https://mcmullarkey.github.io/){target="_blank"}, a clinical psychology PhD who solves problems where data science and product overlap.
